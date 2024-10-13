@@ -20,3 +20,4 @@ func _ready():
 		new_field_player.global_position = config["position"]
 		field_players.append(new_field_player)
 		add_child(new_field_player)
+	field_players[0].is_selected = true
