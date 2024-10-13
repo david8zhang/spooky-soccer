@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://d03yj7smxqk6c"]
+
+[ext_resource type="Script" path="res://scripts/PlayerFieldManager.gd" id="1_kkpbl"]
+[ext_resource type="PackedScene" uid="uid://d1vjmob1dhhgf" path="res://prefabs/FieldPlayer.tscn" id="2_lwkur"]
+
+[node name="PlayerFieldManager" type="Node2D"]
+script = ExtResource("1_kkpbl")
+player_scene = ExtResource("2_lwkur")
