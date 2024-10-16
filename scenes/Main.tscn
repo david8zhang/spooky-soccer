@@ -1,10 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://cp4h3kopc4ei8"]
+[gd_scene load_steps=4 format=3 uid="uid://cp4h3kopc4ei8"]
 
 [ext_resource type="Script" path="res://scripts/Game.gd" id="1_0qwq3"]
 [ext_resource type="PackedScene" uid="uid://d03yj7smxqk6c" path="res://prefabs/PlayerFieldManager.tscn" id="1_uj31e"]
+[ext_resource type="PackedScene" uid="uid://dbagi233oshw7" path="res://prefabs/Ball.tscn" id="3_w1s3v"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_0qwq3")
+
+[node name="Ball" parent="." instance=ExtResource("3_w1s3v")]
+position = Vector2(16, 180)
+collision_mask = 0
 
 [node name="PlayerFieldManager" parent="." instance=ExtResource("1_uj31e")]
 position = Vector2(2.08165e-12, 2.08165e-12)

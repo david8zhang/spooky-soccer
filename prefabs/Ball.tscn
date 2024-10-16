@@ -18,11 +18,13 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4lblx"]
-radius = 71.1758
+radius = 19.0263
 
 [node name="Ball" type="RigidBody2D"]
+collision_layer = 2
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.3, 0.3)
 sprite_frames = SubResource("SpriteFrames_tjyjf")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

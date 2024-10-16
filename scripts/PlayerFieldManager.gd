@@ -18,6 +18,7 @@ func _ready():
 	for config in player_configs:
 		var new_field_player = player_scene.instantiate() as FieldPlayer
 		new_field_player.global_position = config["position"]
+		new_field_player.field_manager = self
 		field_players.append(new_field_player)
 		add_child(new_field_player)
 	field_players[0].is_selected = true
