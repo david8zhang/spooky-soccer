@@ -11,6 +11,9 @@ var player_configs = [
 	},
 	{
 		"position": Vector2(-400, 100)
+	},
+	{
+		"position": Vector2(-200, 50)
 	}
 ]
 
