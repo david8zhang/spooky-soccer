@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://cp4h3kopc4ei8"]
+[gd_scene load_steps=5 format=3 uid="uid://cp4h3kopc4ei8"]
 
 [ext_resource type="Script" path="res://scripts/Game.gd" id="1_0qwq3"]
 [ext_resource type="PackedScene" uid="uid://d03yj7smxqk6c" path="res://prefabs/PlayerFieldManager.tscn" id="1_uj31e"]
 [ext_resource type="PackedScene" uid="uid://dbagi233oshw7" path="res://prefabs/Ball.tscn" id="3_w1s3v"]
+[ext_resource type="PackedScene" uid="uid://cjfb8ram4fpgp" path="res://prefabs/CPUFieldManager.tscn" id="4_kyuv4"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_0qwq3")
@@ -13,5 +14,7 @@ collision_mask = 0
 
 [node name="PlayerFieldManager" parent="." instance=ExtResource("1_uj31e")]
 position = Vector2(2.08165e-12, 2.08165e-12)
+
+[node name="CPUFieldManager" parent="." instance=ExtResource("4_kyuv4")]
 
 [node name="Camera2D" type="Camera2D" parent="."]

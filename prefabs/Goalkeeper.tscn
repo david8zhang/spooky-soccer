@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=3 uid="uid://cb574qavck54v"]
+
+[ext_resource type="Script" path="res://scripts/Goalkeeper.gd" id="1_84vqb"]
+[ext_resource type="Texture2D" uid="uid://dqa181oq1x6gn" path="res://icon.svg" id="2_wv3kd"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fto0y"]
+atlas = ExtResource("2_wv3kd")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2e3fw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fto0y")
+}],
+"loop": true,
+"name": &"placeholder",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_14gn2"]
+size = Vector2(38, 72)
+
+[node name="Goalkeeper" type="CharacterBody2D"]
+script = ExtResource("1_84vqb")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(2.08165e-12, 2.08165e-12)
+scale = Vector2(0.3, 0.563)
+sprite_frames = SubResource("SpriteFrames_2e3fw")
+animation = &"placeholder"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_14gn2")

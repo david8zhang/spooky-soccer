@@ -1,0 +1,10 @@
+[gd_scene load_steps=4 format=3 uid="uid://cjfb8ram4fpgp"]
+
+[ext_resource type="Script" path="res://scripts/CPUFieldManager.gd" id="1_c288n"]
+[ext_resource type="PackedScene" uid="uid://d1vjmob1dhhgf" path="res://prefabs/FieldPlayer.tscn" id="2_m4f7v"]
+[ext_resource type="PackedScene" uid="uid://cb574qavck54v" path="res://prefabs/Goalkeeper.tscn" id="3_i4xph"]
+
+[node name="CPUFieldManager" type="Node2D"]
+script = ExtResource("1_c288n")
+player_scene = ExtResource("2_m4f7v")
+goalkeeper_scene = ExtResource("3_i4xph")
