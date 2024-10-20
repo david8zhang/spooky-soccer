@@ -2,10 +2,18 @@ class_name FieldPlayer
 extends CharacterBody2D
 
 const SPEED = 300.0
+
 var is_selected = false
 var has_possession = false
 var curr_direction
 var pass_target
+var player_name
+var side
+
+enum Side {
+	PLAYER,
+	CPU
+}
 
 enum Direction {
 	LEFT,
@@ -40,10 +48,13 @@ func _physics_process(_delta):
 		if Input.is_action_just_pressed("pass"):
 			pass_ball()
 
+		if Input.is_action_just_pressed("shoot"):
+			shoot_ball()
+
 		var ball = game.ball as RigidBody2D
 		var x_diff = -50 if curr_direction == Direction.LEFT else 50
 		ball.global_position = Vector2(global_position.x + x_diff, global_position.y)
-	update_pass_target(velocity)
+		update_pass_target(velocity)
 	move_and_slide()
 
 
@@ -77,11 +88,23 @@ func pass_ball():
 		var ball = game.ball
 		ball.show()
 		ball.global_position = self.global_position
-		ball.set_gravity_scale(0)
 		var tween = create_tween()
 		tween.tween_property(ball, "global_position", pass_target.global_position, 0.5)
 		var cb = Callable(self, "on_completed_pass").bind(pass_target)
 		tween.finished.connect(cb)
+
+func shoot_ball():
+	lose_poss_of_ball()
+	var ball = game.ball
+	ball.show()
+	ball.global_position = self.global_position
+	var tween = create_tween()
+	var opp_goal = get_opposing_goal()
+	tween.tween_property(ball, "global_position", opp_goal.global_position, 0.4)
+
+
+func get_opposing_goal():
+	return game.cpu_goal if side == Side.PLAYER else game.player_goal
 
 func on_completed_pass(target):
 	is_selected = false

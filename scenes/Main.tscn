@@ -1,9 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://cp4h3kopc4ei8"]
+[gd_scene load_steps=7 format=3 uid="uid://cp4h3kopc4ei8"]
 
 [ext_resource type="Script" path="res://scripts/Game.gd" id="1_0qwq3"]
 [ext_resource type="PackedScene" uid="uid://d03yj7smxqk6c" path="res://prefabs/PlayerFieldManager.tscn" id="1_uj31e"]
 [ext_resource type="PackedScene" uid="uid://dbagi233oshw7" path="res://prefabs/Ball.tscn" id="3_w1s3v"]
 [ext_resource type="PackedScene" uid="uid://cjfb8ram4fpgp" path="res://prefabs/CPUFieldManager.tscn" id="4_kyuv4"]
+[ext_resource type="PackedScene" uid="uid://rgbyovsk6afe" path="res://prefabs/Goal.tscn" id="5_tfqse"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_nmsru"]
+bounce = 0.25
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_0qwq3")
@@ -11,6 +15,9 @@ script = ExtResource("1_0qwq3")
 [node name="Ball" parent="." instance=ExtResource("3_w1s3v")]
 position = Vector2(16, 180)
 collision_mask = 0
+physics_material_override = SubResource("PhysicsMaterial_nmsru")
+gravity_scale = 2.66454e-15
+lock_rotation = true
 
 [node name="PlayerFieldManager" parent="." instance=ExtResource("1_uj31e")]
 position = Vector2(2.08165e-12, 2.08165e-12)
@@ -18,3 +25,9 @@ position = Vector2(2.08165e-12, 2.08165e-12)
 [node name="CPUFieldManager" parent="." instance=ExtResource("4_kyuv4")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="LeftGoal" parent="." instance=ExtResource("5_tfqse")]
+position = Vector2(-550, 1)
+
+[node name="RightGoal" parent="." instance=ExtResource("5_tfqse")]
+position = Vector2(550, 1)

@@ -1,6 +1,10 @@
 class_name Goalkeeper
 extends FieldPlayer
 
-# Goalkeeper can save the ball a certain number of times
-# After all of them are used up, the next shot is guaranteed to go in
-var num_saves = 3
+# Goalkeeper can save the ball if their "save meter" is still full
+# Ever save depletes the save meter, and once empty, the next shot is guaranteed to go in
+
+@onready var save_meter = $SaveMeter as ProgressBar
+
+func _ready():
+  save_meter.value = 100
