@@ -21,7 +21,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_14gn2"]
 size = Vector2(38, 72)
 
-[node name="Goalkeeper" type="CharacterBody2D"]
+[node name="Goalkeeper" type="RigidBody2D"]
 script = ExtResource("1_84vqb")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

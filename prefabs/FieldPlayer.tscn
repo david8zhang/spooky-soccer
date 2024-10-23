@@ -21,7 +21,8 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wo2u0"]
 size = Vector2(38, 72)
 
-[node name="FieldPlayer" type="CharacterBody2D"]
+[node name="FieldPlayer" type="RigidBody2D"]
+lock_rotation = true
 script = ExtResource("1_4h5mm")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
