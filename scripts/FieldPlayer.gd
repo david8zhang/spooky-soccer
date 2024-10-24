@@ -75,7 +75,7 @@ func update_pass_target(curr_velocity: Vector2):
 	if pass_target != null and pass_target != closest_player:
 		pass_target.hide_highlight()
 	pass_target = closest_player
-	if has_possession:
+	if has_possession and side == Side.PLAYER:
 		pass_target.show_highlight()
 
 func show_highlight():
@@ -92,7 +92,7 @@ func pass_ball():
 		var velocity_vector = dir * PASS_SPEED
 		ball.linear_velocity = velocity_vector
 		ball.curr_poss_status = Ball.POSS_STATUS.PLAYER_PASS
-		ball.initial_passer = self
+		ball.prev_possessor = self
 		ball.enable_collision_detector()
 		is_selected = false
 		lose_poss_of_ball()
@@ -103,6 +103,8 @@ func shoot_ball():
 	var opp_goal = get_opposing_goal()
 	var dir = (opp_goal.global_position - ball.global_position).normalized()
 	var velocity_vector = dir * SHOOT_SPEED
+	ball.prev_possessor = self
+	ball.enable_collision_detector()
 	ball.linear_velocity = velocity_vector
 	lose_poss_of_ball()
 
@@ -110,8 +112,8 @@ func handle_ball_collision():
 	var ball = game.ball as Ball
 	if can_take_possession:
 		if ball.curr_poss_status == Ball.POSS_STATUS.PLAYER_PASS:
-			if ball.initial_passer != null:
-				ball.initial_passer.can_take_possession = true
+			if ball.prev_possessor != null:
+				ball.prev_possessor.can_take_possession = true
 		take_poss_of_ball()
 
 func get_opposing_goal():
@@ -127,7 +129,9 @@ func take_poss_of_ball():
 	var ball = game.ball as Ball
 	ball.disable_collision_detector()
 	has_possession = true
-	is_selected = true
+
+	if side == Side.PLAYER:
+		is_selected = true
 
 func lose_poss_of_ball():
 	has_possession = false

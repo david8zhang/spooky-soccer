@@ -22,6 +22,7 @@ animations = [{
 size = Vector2(38, 72)
 
 [node name="Goalkeeper" type="RigidBody2D"]
+lock_rotation = true
 script = ExtResource("1_84vqb")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
