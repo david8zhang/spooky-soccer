@@ -1,0 +1,41 @@
+[gd_scene load_steps=8 format=3 uid="uid://hs88tdqlwcn7"]
+
+[ext_resource type="Script" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_xsn7y"]
+[ext_resource type="Script" path="res://addons/beehave/nodes/composites/selector.gd" id="2_8as02"]
+[ext_resource type="Script" path="res://addons/beehave/nodes/composites/sequence.gd" id="2_erdwv"]
+[ext_resource type="Script" path="res://scripts/behavior_tree/IsOnOffense.gd" id="4_xwktl"]
+[ext_resource type="Script" path="res://scripts/behavior_tree/IsOnball.gd" id="5_ltyea"]
+[ext_resource type="Script" path="res://scripts/behavior_tree/AttackDribble.gd" id="6_3ccq3"]
+[ext_resource type="Script" path="res://scripts/behavior_tree/Idle.gd" id="6_5pohc"]
+
+[node name="CPUFieldPlayerAI" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
+script = ExtResource("1_xsn7y")
+blackboard = NodePath("@Node@21979")
+actor = NodePath("")
+
+[node name="OffenseOrDefense" type="Node" parent="."]
+script = ExtResource("2_8as02")
+
+[node name="OffenseSequence" type="Node" parent="OffenseOrDefense"]
+script = ExtResource("2_erdwv")
+
+[node name="IsOnOffense" type="Node" parent="OffenseOrDefense/OffenseSequence"]
+script = ExtResource("4_xwktl")
+
+[node name="OnOrOffball" type="Node" parent="OffenseOrDefense/OffenseSequence"]
+script = ExtResource("2_8as02")
+
+[node name="OnballSequence" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball"]
+script = ExtResource("2_erdwv")
+
+[node name="IsOnball" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OnballSequence"]
+script = ExtResource("5_ltyea")
+
+[node name="AttackDribble" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OnballSequence"]
+script = ExtResource("6_3ccq3")
+
+[node name="Idle" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball"]
+script = ExtResource("6_5pohc")
+
+[node name="Idle" type="Node" parent="OffenseOrDefense"]
+script = ExtResource("6_5pohc")

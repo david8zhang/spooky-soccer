@@ -27,7 +27,7 @@ enum Direction {
 }
 
 @onready var game = get_node("/root/Main") as Game
-var field_manager
+var field_manager: FieldManager
 
 func _physics_process(_delta):
 	if has_possession:
@@ -86,3 +86,17 @@ func take_poss_of_ball():
 
 func lose_poss_of_ball():
 	has_possession = false
+
+func side_has_possession():
+	for p in field_manager.field_players:
+		if p.has_possession:
+			return true
+	return false
+
+
+func move_to_position(dest_position: Vector2, is_at_pos_threshold):
+	if global_position.distance_to(dest_position) <= is_at_pos_threshold:
+		linear_velocity = Vector2.ZERO
+	else:
+		var dir = (dest_position - global_position).normalized()
+		linear_velocity = dir * FieldPlayer.SPEED

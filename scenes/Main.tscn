@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cp4h3kopc4ei8"]
+[gd_scene load_steps=9 format=3 uid="uid://cp4h3kopc4ei8"]
 
 [ext_resource type="Script" path="res://scripts/Game.gd" id="1_0qwq3"]
 [ext_resource type="PackedScene" uid="uid://d03yj7smxqk6c" path="res://prefabs/PlayerFieldManager.tscn" id="1_uj31e"]
@@ -6,12 +6,16 @@
 [ext_resource type="PackedScene" uid="uid://cjfb8ram4fpgp" path="res://prefabs/CPUFieldManager.tscn" id="4_kyuv4"]
 [ext_resource type="PackedScene" uid="uid://cb8pxunyr2q10" path="res://prefabs/PlayerFieldPlayer.tscn" id="4_udoea"]
 [ext_resource type="PackedScene" uid="uid://rgbyovsk6afe" path="res://prefabs/Goal.tscn" id="5_tfqse"]
+[ext_resource type="PackedScene" uid="uid://b70d37wyfnq4h" path="res://prefabs/CPUFieldPlayer.tscn" id="6_5e7kb"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_nmsru"]
 bounce = 0.25
 
 [node name="Main" type="Node2D"]
+position = Vector2(2.08165e-12, 2.08165e-12)
 script = ExtResource("1_0qwq3")
+
+[node name="Camera2D" type="Camera2D" parent="."]
 
 [node name="Ball" parent="." instance=ExtResource("3_w1s3v")]
 position = Vector2(16, 180)
@@ -23,8 +27,7 @@ position = Vector2(2.08165e-12, 2.08165e-12)
 player_scene = ExtResource("4_udoea")
 
 [node name="CPUFieldManager" parent="." instance=ExtResource("4_kyuv4")]
-
-[node name="Camera2D" type="Camera2D" parent="."]
+player_scene = ExtResource("6_5e7kb")
 
 [node name="LeftGoal" parent="." instance=ExtResource("5_tfqse")]
 position = Vector2(-550, 1)

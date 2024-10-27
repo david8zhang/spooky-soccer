@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://b70d37wyfnq4h"]
+[gd_scene load_steps=7 format=3 uid="uid://b70d37wyfnq4h"]
 
 [ext_resource type="Texture2D" uid="uid://dqa181oq1x6gn" path="res://icon.svg" id="1_axad5"]
 [ext_resource type="Script" path="res://scripts/CPUFieldPlayer.gd" id="1_k72m6"]
+[ext_resource type="PackedScene" uid="uid://hs88tdqlwcn7" path="res://prefabs/CPUFieldPlayerAI.tscn" id="2_4laok"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fto0y"]
 atlas = ExtResource("1_axad5")
@@ -24,6 +25,10 @@ size = Vector2(38, 72)
 [node name="CPUFieldPlayer" type="RigidBody2D"]
 lock_rotation = true
 script = ExtResource("1_k72m6")
+
+[node name="CPUFieldPlayerAI" parent="." node_paths=PackedStringArray("blackboard", "actor") instance=ExtResource("2_4laok")]
+blackboard = NodePath("@Node@19339")
+actor = NodePath("..")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(2.08165e-12, 2.08165e-12)
