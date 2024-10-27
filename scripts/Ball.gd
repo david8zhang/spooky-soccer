@@ -19,7 +19,9 @@ func enable_collision_detector():
 	collision_detector.set_deferred("disabled", false)
 
 var curr_poss_status
-var prev_possessor
+
+# Metadata stored on the ball
+var metadata = {}
 
 func _on_field_player_detector_body_entered(body):
 	if body is FieldPlayer:

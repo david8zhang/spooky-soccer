@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://cp4h3kopc4ei8"]
+[gd_scene load_steps=8 format=3 uid="uid://cp4h3kopc4ei8"]
 
 [ext_resource type="Script" path="res://scripts/Game.gd" id="1_0qwq3"]
 [ext_resource type="PackedScene" uid="uid://d03yj7smxqk6c" path="res://prefabs/PlayerFieldManager.tscn" id="1_uj31e"]
 [ext_resource type="PackedScene" uid="uid://dbagi233oshw7" path="res://prefabs/Ball.tscn" id="3_w1s3v"]
 [ext_resource type="PackedScene" uid="uid://cjfb8ram4fpgp" path="res://prefabs/CPUFieldManager.tscn" id="4_kyuv4"]
+[ext_resource type="PackedScene" uid="uid://cb8pxunyr2q10" path="res://prefabs/PlayerFieldPlayer.tscn" id="4_udoea"]
 [ext_resource type="PackedScene" uid="uid://rgbyovsk6afe" path="res://prefabs/Goal.tscn" id="5_tfqse"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_nmsru"]
@@ -19,6 +20,7 @@ gravity_scale = 2.66454e-15
 
 [node name="PlayerFieldManager" parent="." instance=ExtResource("1_uj31e")]
 position = Vector2(2.08165e-12, 2.08165e-12)
+player_scene = ExtResource("4_udoea")
 
 [node name="CPUFieldManager" parent="." instance=ExtResource("4_kyuv4")]
 
@@ -29,3 +31,22 @@ position = Vector2(-550, 1)
 
 [node name="RightGoal" parent="." instance=ExtResource("5_tfqse")]
 position = Vector2(550, 1)
+side = 1
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Scoreboard" type="Label" parent="CanvasLayer"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -31.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 50
+text = "0 - 0"
+horizontal_alignment = 1
+vertical_alignment = 1

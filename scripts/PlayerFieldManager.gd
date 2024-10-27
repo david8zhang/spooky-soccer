@@ -19,5 +19,5 @@ var goalkeeper_config = {
 
 func _ready():
 	init_players(player_configs, FieldPlayer.Side.PLAYER)
-	init_goalkeeper(goalkeeper_config)
+	init_goalkeeper(goalkeeper_config, FieldPlayer.Side.PLAYER)
 	field_players[0].is_selected = true

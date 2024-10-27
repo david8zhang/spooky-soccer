@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://b70d37wyfnq4h"]
+
+[ext_resource type="Texture2D" uid="uid://dqa181oq1x6gn" path="res://icon.svg" id="1_axad5"]
+[ext_resource type="Script" path="res://scripts/CPUFieldPlayer.gd" id="1_k72m6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fto0y"]
+atlas = ExtResource("1_axad5")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_14fs1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fto0y")
+}],
+"loop": true,
+"name": &"placeholder",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ficat"]
+size = Vector2(38, 72)
+
+[node name="CPUFieldPlayer" type="RigidBody2D"]
+lock_rotation = true
+script = ExtResource("1_k72m6")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(2.08165e-12, 2.08165e-12)
+scale = Vector2(0.3, 0.563)
+sprite_frames = SubResource("SpriteFrames_14fs1")
+animation = &"placeholder"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ficat")

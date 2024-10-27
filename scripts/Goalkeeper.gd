@@ -7,4 +7,12 @@ extends FieldPlayer
 @onready var save_meter = $SaveMeter as ProgressBar
 
 func _ready():
+  curr_direction = Direction.LEFT if side == Side.CPU else Direction.RIGHT
   save_meter.value = 100
+
+func handle_ball_collision():
+  var ball = game.ball as Ball
+  var stamina_dmg = ball.metadata["shot_force"]
+  save_meter.value = max(0, save_meter.value - stamina_dmg)
+  if save_meter.value > 0:
+    super.handle_ball_collision()
