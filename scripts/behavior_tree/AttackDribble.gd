@@ -17,4 +17,5 @@ func get_target_pos() -> Vector2:
 	var window_size = get_viewport().get_visible_rect().size
 	var random_y = random.randi_range(-window_size.y / 2 + 5, window_size.y / 2 - 5)
 	var x = -window_size.x / 2 + 400
-	return Vector2(x, random_y)
+	# return Vector2(x, random_y)
+	return Vector2(-350, 100)

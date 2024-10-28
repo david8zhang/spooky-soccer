@@ -1,7 +1,7 @@
 class_name FieldPlayer
 extends RigidBody2D
 
-const SPEED = 300.0
+const SPEED = 250
 const PASS_SPEED = 500.0
 const SHOOT_SPEED = 750
 
@@ -27,6 +27,7 @@ enum Direction {
 }
 
 @onready var game = get_node("/root/Main") as Game
+@onready var context_map = $ContextMap as ContextMap
 var field_manager: FieldManager
 
 func _physics_process(_delta):
@@ -98,5 +99,8 @@ func move_to_position(dest_position: Vector2, is_at_pos_threshold):
 	if global_position.distance_to(dest_position) <= is_at_pos_threshold:
 		linear_velocity = Vector2.ZERO
 	else:
-		var dir = (dest_position - global_position).normalized()
-		linear_velocity = dir * FieldPlayer.SPEED
+		context_map.target_position = dest_position
+		var dir = context_map.best_dir
+		var desired_velocity = dir * FieldPlayer.SPEED
+		var steering_force = desired_velocity - linear_velocity
+		linear_velocity = linear_velocity + (steering_force * 2 * 0.0167)

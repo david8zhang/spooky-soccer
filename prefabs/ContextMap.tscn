@@ -1,0 +1,30 @@
+[gd_scene load_steps=2 format=3 uid="uid://bvwulw0o1p2y6"]
+
+[ext_resource type="Script" path="res://scripts/ContextMap.gd" id="1_g4354"]
+
+[node name="ContextMap" type="Node2D"]
+script = ExtResource("1_g4354")
+
+[node name="north" type="RayCast2D" parent="."]
+target_position = Vector2(2.08165e-12, -80)
+
+[node name="northeast" type="RayCast2D" parent="."]
+target_position = Vector2(60, -60)
+
+[node name="east" type="RayCast2D" parent="."]
+target_position = Vector2(80, 2.08165e-12)
+
+[node name="southeast" type="RayCast2D" parent="."]
+target_position = Vector2(60, 60)
+
+[node name="south" type="RayCast2D" parent="."]
+target_position = Vector2(2.08165e-12, 80)
+
+[node name="southwest" type="RayCast2D" parent="."]
+target_position = Vector2(-60, 60)
+
+[node name="west" type="RayCast2D" parent="."]
+target_position = Vector2(-80, 2.08165e-12)
+
+[node name="northwest" type="RayCast2D" parent="."]
+target_position = Vector2(-60, -60)
