@@ -21,8 +21,8 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vt7y0"]
-radius = 18.0
-height = 70.0
+radius = 12.0
+height = 48.0
 
 [node name="CPUFieldPlayer" type="RigidBody2D"]
 lock_rotation = true
@@ -31,12 +31,12 @@ script = ExtResource("1_k72m6")
 [node name="ContextMap" parent="." instance=ExtResource("2_vai8v")]
 
 [node name="CPUFieldPlayerAI" parent="." node_paths=PackedStringArray("blackboard", "actor") instance=ExtResource("2_4laok")]
-blackboard = NodePath("@Node@191691")
+blackboard = NodePath("@Node@202746")
 actor = NodePath("..")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(2.08165e-12, 2.08165e-12)
-scale = Vector2(0.3, 0.563)
+position = Vector2(0, -4.76837e-07)
+scale = Vector2(0.1875, 0.382812)
 sprite_frames = SubResource("SpriteFrames_14fs1")
 animation = &"placeholder"
 

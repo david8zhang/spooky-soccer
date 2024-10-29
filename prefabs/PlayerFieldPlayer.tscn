@@ -8,7 +8,7 @@
 atlas = ExtResource("1_48ndw")
 region = Rect2(0, 0, 128, 128)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_2e2ih"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_wl6kh"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -19,9 +19,9 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_r7eo2"]
-radius = 18.0
-height = 70.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qv6rt"]
+radius = 12.0
+height = 48.0
 
 [node name="PlayerFieldPlayer" type="RigidBody2D"]
 lock_rotation = true
@@ -30,13 +30,13 @@ script = ExtResource("1_ejapt")
 [node name="ContextMap" parent="." instance=ExtResource("2_xnjla")]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(2.08165e-12, 2.08165e-12)
-scale = Vector2(0.3, 0.563)
-sprite_frames = SubResource("SpriteFrames_2e2ih")
+position = Vector2(0, -4.76837e-07)
+scale = Vector2(0.1875, 0.382812)
+sprite_frames = SubResource("SpriteFrames_wl6kh")
 animation = &"placeholder"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_r7eo2")
+shape = SubResource("CapsuleShape2D_qv6rt")
 
 [node name="RayToGoal" type="RayCast2D" parent="."]
 modulate = Color(0, 1, 0, 1)

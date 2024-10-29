@@ -7,7 +7,7 @@
 atlas = ExtResource("2_wv3kd")
 region = Rect2(0, 0, 128, 128)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_2e3fw"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_3k4l4"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -18,8 +18,9 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_14gn2"]
-size = Vector2(38, 72)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3yi85"]
+radius = 12.0
+height = 48.0
 
 [node name="Goalkeeper" type="RigidBody2D"]
 collision_layer = 8
@@ -27,18 +28,18 @@ lock_rotation = true
 script = ExtResource("1_84vqb")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(2.08165e-12, 2.08165e-12)
-scale = Vector2(0.3, 0.563)
-sprite_frames = SubResource("SpriteFrames_2e3fw")
+position = Vector2(0, -4.76837e-07)
+scale = Vector2(0.1875, 0.382812)
+sprite_frames = SubResource("SpriteFrames_3k4l4")
 animation = &"placeholder"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_14gn2")
+shape = SubResource("CapsuleShape2D_3yi85")
 
 [node name="SaveMeter" type="ProgressBar" parent="."]
 offset_left = -25.0
-offset_top = -45.0
+offset_top = -35.0
 offset_right = 25.0
-offset_bottom = -40.0
+offset_bottom = -30.0
 step = 1.0
 show_percentage = false
