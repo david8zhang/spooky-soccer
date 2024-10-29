@@ -28,6 +28,8 @@ enum Direction {
 
 @onready var game = get_node("/root/Main") as Game
 @onready var context_map = $ContextMap as ContextMap
+@onready var ray_to_goal = $RayToGoal as RayCast2D
+
 var field_manager: FieldManager
 
 func _physics_process(_delta):
@@ -36,6 +38,10 @@ func _physics_process(_delta):
 		ball.show()
 		var x_diff = -50 if curr_direction == Direction.LEFT else 50
 		ball.global_position = Vector2(global_position.x + x_diff, global_position.y)
+
+	# For checking if the player currently has an open shot on offense
+	if ray_to_goal != null:
+		ray_to_goal.target_position = ray_to_goal.to_local(get_opposing_goal().global_position)
 
 func pass_ball():
 	if pass_target != null:
@@ -104,3 +110,6 @@ func move_to_position(dest_position: Vector2, is_at_pos_threshold):
 		var desired_velocity = dir * FieldPlayer.SPEED
 		var steering_force = desired_velocity - linear_velocity
 		linear_velocity = linear_velocity + (steering_force * 2 * 0.0167)
+
+func has_open_shot():
+	return ray_to_goal.is_colliding()

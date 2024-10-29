@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://cb8pxunyr2q10"]
+[gd_scene load_steps=7 format=3 uid="uid://cb8pxunyr2q10"]
 
 [ext_resource type="Texture2D" uid="uid://dqa181oq1x6gn" path="res://icon.svg" id="1_48ndw"]
 [ext_resource type="Script" path="res://scripts/PlayerFieldPlayer.gd" id="1_ejapt"]
+[ext_resource type="PackedScene" uid="uid://bvwulw0o1p2y6" path="res://prefabs/ContextMap.tscn" id="2_xnjla"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fto0y"]
 atlas = ExtResource("1_48ndw")
@@ -18,12 +19,15 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_sy3cu"]
-size = Vector2(38, 72)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_r7eo2"]
+radius = 18.0
+height = 70.0
 
 [node name="PlayerFieldPlayer" type="RigidBody2D"]
 lock_rotation = true
 script = ExtResource("1_ejapt")
+
+[node name="ContextMap" parent="." instance=ExtResource("2_xnjla")]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(2.08165e-12, 2.08165e-12)
@@ -32,4 +36,8 @@ sprite_frames = SubResource("SpriteFrames_2e2ih")
 animation = &"placeholder"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_sy3cu")
+shape = SubResource("CapsuleShape2D_r7eo2")
+
+[node name="RayToGoal" type="RayCast2D" parent="."]
+modulate = Color(0, 1, 0, 1)
+target_position = Vector2(2.08165e-12, 100)

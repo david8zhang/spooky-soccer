@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://hs88tdqlwcn7"]
+[gd_scene load_steps=12 format=3 uid="uid://hs88tdqlwcn7"]
 
 [ext_resource type="Script" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_xsn7y"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/composites/selector.gd" id="2_8as02"]
@@ -7,6 +7,10 @@
 [ext_resource type="Script" path="res://scripts/behavior_tree/IsOnball.gd" id="5_ltyea"]
 [ext_resource type="Script" path="res://scripts/behavior_tree/AttackDribble.gd" id="6_3ccq3"]
 [ext_resource type="Script" path="res://scripts/behavior_tree/Idle.gd" id="6_5pohc"]
+[ext_resource type="Script" path="res://addons/beehave/nodes/decorators/inverter.gd" id="7_hc8l0"]
+[ext_resource type="Script" path="res://scripts/behavior_tree/IsOpen.gd" id="8_bns73"]
+[ext_resource type="Script" path="res://scripts/behavior_tree/NearOpponentGoal.gd" id="9_db1pk"]
+[ext_resource type="Script" path="res://scripts/behavior_tree/MoveToOpenPosition.gd" id="10_l5pas"]
 
 [node name="CPUFieldPlayerAI" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_xsn7y")
@@ -34,7 +38,28 @@ script = ExtResource("5_ltyea")
 [node name="AttackDribble" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OnballSequence"]
 script = ExtResource("6_3ccq3")
 
-[node name="Idle" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball"]
+[node name="OffballSelector" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball"]
+script = ExtResource("2_8as02")
+
+[node name="GetOpenSequence" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OffballSelector"]
+script = ExtResource("2_erdwv")
+
+[node name="InverterDecorator" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OffballSelector/GetOpenSequence"]
+script = ExtResource("7_hc8l0")
+
+[node name="IsInPosition" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OffballSelector/GetOpenSequence/InverterDecorator"]
+script = ExtResource("2_erdwv")
+
+[node name="IsOpen" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OffballSelector/GetOpenSequence/InverterDecorator/IsInPosition"]
+script = ExtResource("8_bns73")
+
+[node name="NearOpponentGoal" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OffballSelector/GetOpenSequence/InverterDecorator/IsInPosition"]
+script = ExtResource("9_db1pk")
+
+[node name="MoveToOpenPosition" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OffballSelector/GetOpenSequence"]
+script = ExtResource("10_l5pas")
+
+[node name="Idle" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OffballSelector"]
 script = ExtResource("6_5pohc")
 
 [node name="Idle" type="Node" parent="OffenseOrDefense"]

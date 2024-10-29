@@ -22,6 +22,7 @@ animations = [{
 size = Vector2(38, 72)
 
 [node name="Goalkeeper" type="RigidBody2D"]
+collision_layer = 8
 lock_rotation = true
 script = ExtResource("1_84vqb")
 
