@@ -112,4 +112,4 @@ func move_to_position(dest_position: Vector2, is_at_pos_threshold):
 		linear_velocity = linear_velocity + (steering_force * 2 * 0.0167)
 
 func has_open_shot():
-	return ray_to_goal.is_colliding()
+	return !ray_to_goal.is_colliding()

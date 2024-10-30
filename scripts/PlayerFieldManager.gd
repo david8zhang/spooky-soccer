@@ -17,7 +17,15 @@ var goalkeeper_config = {
 	"name": "Player GK"
 }
 
+var selected_player
+
 func _ready():
 	init_players(player_configs, FieldPlayer.Side.PLAYER)
 	init_goalkeeper(goalkeeper_config, FieldPlayer.Side.PLAYER)
 	field_players[0].is_selected = true
+
+func select_new_player(field_player: FieldPlayer):
+	if selected_player != null and selected_player != field_player:
+		selected_player.is_selected = false
+	field_player.is_selected = true
+	selected_player = field_player
