@@ -4,13 +4,21 @@ extends Node2D
 var raycast_list = []
 var directions = [
 	Vector2(0, -1),
+	Vector2(0.5, -1),
 	Vector2(1, -1),
+	Vector2(2, -0.5),
 	Vector2(1, 0),
+	Vector2(1, 0.5),
 	Vector2(1, 1),
+	Vector2(0.5, 1),
 	Vector2(0, 1),
+	Vector2(-0.5, 1),
 	Vector2(-1, 1),
+	Vector2(-1, 0.5),
 	Vector2(-1, 0),
-	Vector2(-1, -1)
+	Vector2(-1, -0.5),
+	Vector2(-1, -1),
+	Vector2(-0.5, -1)
 ]
 var target_position
 var best_dir: Vector2 = Vector2.ZERO
@@ -22,18 +30,22 @@ func _ready():
 
 func _physics_process(_delta):
 	if target_position != null:
-		var danger_map = [0, 0, 0, 0, 0, 0, 0, 0]
+		var danger_map = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 		for i in range(0, raycast_list.size()):
 			var ray = raycast_list[i] as RayCast2D
 			if ray.is_colliding():
-				danger_map[i] = 5
-				danger_map[(i + 1) % 8] = 2
-				danger_map[(i - 1) % 8] = 2
+				danger_map[i] = 7
+				danger_map[(i + 3) % danger_map.size()] = 1
+				danger_map[(i + 2) % danger_map.size()] = 2
+				danger_map[(i + 1) % danger_map.size()] = 5
+				danger_map[(i - 1) % danger_map.size()] = 5
+				danger_map[(i - 2) % danger_map.size()] = 2
+				danger_map[(i - 3) % danger_map.size()] = 1
 			else:
 				if danger_map[i] == 0:
 					danger_map[i] = 0
 
-		var context_map = [0, 0, 0, 0, 0, 0, 0, 0]
+		var context_map = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 		var highest_val = -INF
 		var curr_best_dir = Vector2.ZERO
 		for i in range(0, directions.size()):

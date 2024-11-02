@@ -27,5 +27,6 @@ func _ready():
 func select_new_player(field_player: FieldPlayer):
 	if selected_player != null and selected_player != field_player:
 		selected_player.is_selected = false
+		selected_player.lose_poss_of_ball()
 	field_player.is_selected = true
 	selected_player = field_player

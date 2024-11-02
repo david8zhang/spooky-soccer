@@ -60,4 +60,5 @@ func hide_highlight():
 
 func take_poss_of_ball():
 	super.take_poss_of_ball()
-	is_selected = true
+	var player_manager = field_manager as PlayerFieldManager
+	player_manager.select_new_player(self)

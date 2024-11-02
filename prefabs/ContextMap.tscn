@@ -8,23 +8,47 @@ script = ExtResource("1_g4354")
 [node name="north" type="RayCast2D" parent="."]
 target_position = Vector2(2.08165e-12, -80)
 
+[node name="north_northeast" type="RayCast2D" parent="."]
+target_position = Vector2(30, -70)
+
 [node name="northeast" type="RayCast2D" parent="."]
 target_position = Vector2(60, -60)
+
+[node name="east_northeast" type="RayCast2D" parent="."]
+target_position = Vector2(70, -30)
 
 [node name="east" type="RayCast2D" parent="."]
 target_position = Vector2(80, 2.08165e-12)
 
+[node name="east_southeast" type="RayCast2D" parent="."]
+target_position = Vector2(70, 30)
+
 [node name="southeast" type="RayCast2D" parent="."]
 target_position = Vector2(60, 60)
+
+[node name="south_southeast" type="RayCast2D" parent="."]
+target_position = Vector2(30, 70)
 
 [node name="south" type="RayCast2D" parent="."]
 target_position = Vector2(2.08165e-12, 80)
 
+[node name="south_southwest" type="RayCast2D" parent="."]
+target_position = Vector2(-30, 70)
+
 [node name="southwest" type="RayCast2D" parent="."]
 target_position = Vector2(-60, 60)
+
+[node name="west_southwest" type="RayCast2D" parent="."]
+target_position = Vector2(-70, 30)
 
 [node name="west" type="RayCast2D" parent="."]
 target_position = Vector2(-80, 2.08165e-12)
 
+[node name="west_northwest" type="RayCast2D" parent="."]
+target_position = Vector2(-70, -30)
+
 [node name="northwest" type="RayCast2D" parent="."]
 target_position = Vector2(-60, -60)
+
+[node name="north_northwest" type="RayCast2D" parent="."]
+target_position = Vector2(-30, -70)

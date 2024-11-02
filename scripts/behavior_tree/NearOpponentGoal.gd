@@ -1,7 +1,7 @@
 class_name NearOpponentGoal
 extends ConditionLeaf
 
-var DIST_THRESHOLD = 350
+var DIST_THRESHOLD = 250
 
 func tick(actor: Node, _blackboard: Blackboard):
 	var field_player = actor as FieldPlayer

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cp4h3kopc4ei8"]
+[gd_scene load_steps=9 format=3 uid="uid://cp4h3kopc4ei8"]
 
 [ext_resource type="Script" path="res://scripts/Game.gd" id="1_0qwq3"]
 [ext_resource type="PackedScene" uid="uid://d03yj7smxqk6c" path="res://prefabs/PlayerFieldManager.tscn" id="1_uj31e"]
@@ -8,20 +8,12 @@
 [ext_resource type="PackedScene" uid="uid://rgbyovsk6afe" path="res://prefabs/Goal.tscn" id="5_tfqse"]
 [ext_resource type="PackedScene" uid="uid://b70d37wyfnq4h" path="res://prefabs/CPUFieldPlayer.tscn" id="6_5e7kb"]
 
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_b082s"]
-vertices = PackedVector2Array(578, -324, 576, 324, -576, 324, -576, -324)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-576, -324, -576, 324, 576, 324, 578, -324)])
-
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_nmsru"]
 bounce = 0.25
 
 [node name="Main" type="Node2D"]
 position = Vector2(2.08165e-12, 2.08165e-12)
 script = ExtResource("1_0qwq3")
-
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
-navigation_polygon = SubResource("NavigationPolygon_b082s")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
