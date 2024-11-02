@@ -65,6 +65,14 @@ shoot={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="PlayerFieldPlayers"
+2d_physics/layer_2="CPUFieldPlayers"
+2d_physics/layer_3="Ball"
+2d_physics/layer_4="Goalkeepers"
+2d_physics/layer_5="Goal"
+
 [physics]
 
 2d/default_gravity=2.08165e-12

@@ -28,11 +28,8 @@ func _physics_process(_delta):
 
 		if Input.is_action_just_pressed("shoot"):
 			shoot_ball()
-
-		var ball = game.ball as RigidBody2D
-		var x_diff = -50 if curr_direction == Direction.LEFT else 50
-		ball.global_position = Vector2(global_position.x + x_diff, global_position.y)
 		update_pass_target(linear_velocity)
+	super._physics_process(_delta)
 
 func update_pass_target(curr_velocity: Vector2):
 	var src_position = global_position + curr_velocity
@@ -60,5 +57,6 @@ func hide_highlight():
 
 func take_poss_of_ball():
 	super.take_poss_of_ball()
+	hide_highlight()
 	var player_manager = field_manager as PlayerFieldManager
 	player_manager.select_new_player(self)

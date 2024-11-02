@@ -5,18 +5,18 @@
 [ext_resource type="Script" path="res://addons/beehave/nodes/composites/sequence.gd" id="2_erdwv"]
 [ext_resource type="Script" path="res://scripts/behavior_tree/IsOnOffense.gd" id="4_xwktl"]
 [ext_resource type="Script" path="res://scripts/behavior_tree/IsOnball.gd" id="5_ltyea"]
-[ext_resource type="Script" path="res://scripts/behavior_tree/AttackDribble.gd" id="6_3ccq3"]
 [ext_resource type="Script" path="res://scripts/behavior_tree/Idle.gd" id="6_5pohc"]
-[ext_resource type="Script" path="res://addons/beehave/nodes/decorators/inverter.gd" id="7_hc8l0"]
 [ext_resource type="Script" path="res://scripts/behavior_tree/ShootBall.gd" id="7_sfdfh"]
+[ext_resource type="Script" path="res://scripts/behavior_tree/IsPassLaneOpen.gd" id="8_45sr2"]
 [ext_resource type="Script" path="res://scripts/behavior_tree/IsOpen.gd" id="8_bns73"]
-[ext_resource type="Script" path="res://scripts/behavior_tree/NearOpponentGoal.gd" id="9_db1pk"]
-[ext_resource type="Script" path="res://scripts/behavior_tree/MoveToOpenPosition.gd" id="10_l5pas"]
+[ext_resource type="Script" path="res://scripts/behavior_tree/IsInDanger.gd" id="10_ywh3k"]
+[ext_resource type="Script" path="res://scripts/behavior_tree/SaveOpenPassTarget.gd" id="11_88kw3"]
+[ext_resource type="Script" path="res://scripts/behavior_tree/PassBall.gd" id="11_rjhhn"]
 
 [node name="CPUFieldPlayerAI" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_xsn7y")
 blackboard = NodePath("@Node@21979")
-actor = NodePath("")
+actor = NodePath("..")
 
 [node name="OffenseOrDefense" type="Node" parent="."]
 script = ExtResource("2_8as02")
@@ -36,56 +36,41 @@ script = ExtResource("2_erdwv")
 [node name="IsOnball" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OnballSequence"]
 script = ExtResource("5_ltyea")
 
-[node name="ShouldDribbleOrNot" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OnballSequence"]
+[node name="ShouldShootOrNot" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OnballSequence"]
 script = ExtResource("2_8as02")
 
-[node name="DribbleSequence" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OnballSequence/ShouldDribbleOrNot"]
+[node name="ShootSequence" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OnballSequence/ShouldShootOrNot"]
 script = ExtResource("2_erdwv")
 
-[node name="NearOpponentGoal" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OnballSequence/ShouldDribbleOrNot/DribbleSequence"]
-script = ExtResource("9_db1pk")
-
-[node name="ShouldShootOrNot" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OnballSequence/ShouldDribbleOrNot/DribbleSequence"]
-script = ExtResource("2_8as02")
-
-[node name="ShootSequence" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OnballSequence/ShouldDribbleOrNot/DribbleSequence/ShouldShootOrNot"]
-script = ExtResource("2_erdwv")
-
-[node name="IsOpen" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OnballSequence/ShouldDribbleOrNot/DribbleSequence/ShouldShootOrNot/ShootSequence"]
+[node name="IsOpen" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OnballSequence/ShouldShootOrNot/ShootSequence"]
 script = ExtResource("8_bns73")
 
-[node name="ShootBall" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OnballSequence/ShouldDribbleOrNot/DribbleSequence/ShouldShootOrNot/ShootSequence"]
+[node name="ShootBall" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OnballSequence/ShouldShootOrNot/ShootSequence"]
 script = ExtResource("7_sfdfh")
 
-[node name="Idle" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OnballSequence/ShouldDribbleOrNot/DribbleSequence/ShouldShootOrNot"]
-script = ExtResource("6_5pohc")
-
-[node name="AttackDribble" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OnballSequence/ShouldDribbleOrNot"]
-script = ExtResource("6_3ccq3")
-
-[node name="OffballSelector" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball"]
+[node name="ShouldPassOrNot" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OnballSequence/ShouldShootOrNot"]
 script = ExtResource("2_8as02")
 
-[node name="GetOpenSequence" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OffballSelector"]
+[node name="PassSequence" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OnballSequence/ShouldShootOrNot/ShouldPassOrNot"]
 script = ExtResource("2_erdwv")
 
-[node name="InverterDecorator" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OffballSelector/GetOpenSequence"]
-script = ExtResource("7_hc8l0")
+[node name="IsPassLaneOpen" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OnballSequence/ShouldShootOrNot/ShouldPassOrNot/PassSequence"]
+script = ExtResource("8_45sr2")
 
-[node name="IsInPosition" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OffballSelector/GetOpenSequence/InverterDecorator"]
-script = ExtResource("2_erdwv")
+[node name="OrConditional" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OnballSequence/ShouldShootOrNot/ShouldPassOrNot/PassSequence"]
+script = ExtResource("2_8as02")
 
-[node name="IsOpen" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OffballSelector/GetOpenSequence/InverterDecorator/IsInPosition"]
-script = ExtResource("8_bns73")
+[node name="IsInDanger" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OnballSequence/ShouldShootOrNot/ShouldPassOrNot/PassSequence/OrConditional"]
+script = ExtResource("10_ywh3k")
 
-[node name="NearOpponentGoal" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OffballSelector/GetOpenSequence/InverterDecorator/IsInPosition"]
-script = ExtResource("9_db1pk")
+[node name="SaveOpenPassTarget" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OnballSequence/ShouldShootOrNot/ShouldPassOrNot/PassSequence/OrConditional"]
+script = ExtResource("11_88kw3")
 
-[node name="MoveToOpenPosition" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OffballSelector/GetOpenSequence"]
-script = ExtResource("10_l5pas")
+[node name="PassBall" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OnballSequence/ShouldShootOrNot/ShouldPassOrNot/PassSequence"]
+script = ExtResource("11_rjhhn")
 
-[node name="Idle" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OffballSelector"]
+[node name="Idle" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball/OnballSequence/ShouldShootOrNot/ShouldPassOrNot"]
 script = ExtResource("6_5pohc")
 
-[node name="Idle" type="Node" parent="OffenseOrDefense"]
+[node name="Idle" type="Node" parent="OffenseOrDefense/OffenseSequence/OnOrOffball"]
 script = ExtResource("6_5pohc")

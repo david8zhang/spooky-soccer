@@ -11,9 +11,12 @@ extends Node2D
 var cpu_score = 0
 var player_score = 0
 
+signal all_ready
+
 func _ready():
 	var player = player_manager.field_players[0] as FieldPlayer
 	player.take_poss_of_ball()
+	all_ready.emit()
 
 func on_cpu_scored():
 	cpu_score += 1

@@ -1,10 +1,42 @@
-[gd_scene load_steps=4 format=3 uid="uid://d03yj7smxqk6c"]
+[gd_scene load_steps=9 format=3 uid="uid://d03yj7smxqk6c"]
 
 [ext_resource type="Script" path="res://scripts/PlayerFieldManager.gd" id="1_kkpbl"]
-[ext_resource type="PackedScene" uid="uid://d1vjmob1dhhgf" path="res://prefabs/FieldPlayer.tscn" id="2_lwkur"]
+[ext_resource type="Script" path="res://scripts/FieldPlayer.gd" id="2_q0j3s"]
+[ext_resource type="Texture2D" uid="uid://dqa181oq1x6gn" path="res://icon.svg" id="3_icn3j"]
 [ext_resource type="PackedScene" uid="uid://cb574qavck54v" path="res://prefabs/Goalkeeper.tscn" id="3_jlnuh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fto0y"]
+atlas = ExtResource("3_icn3j")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8qxoa"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fto0y")
+}],
+"loop": true,
+"name": &"placeholder",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wo2u0"]
+size = Vector2(38, 72)
+
+[sub_resource type="PackedScene" id="PackedScene_gk3m4"]
+_bundled = {
+"conn_count": 0,
+"conns": PackedInt32Array(),
+"editable_instances": [],
+"names": PackedStringArray("FieldPlayer", "lock_rotation", "script", "RigidBody2D", "AnimatedSprite2D", "position", "scale", "sprite_frames", "animation", "CollisionShape2D", "shape"),
+"node_count": 3,
+"node_paths": [],
+"nodes": PackedInt32Array(-1, -1, 3, 0, -1, 2, 1, 0, 2, 1, 0, 0, 0, 4, 4, -1, 4, 5, 2, 6, 3, 7, 4, 8, 5, 0, 0, 0, 9, 9, -1, 1, 10, 6, 0),
+"variants": [true, ExtResource("2_q0j3s"), Vector2(2.08165e-12, 2.08165e-12), Vector2(0.3, 0.563), SubResource("SpriteFrames_8qxoa"), &"placeholder", SubResource("RectangleShape2D_wo2u0")],
+"version": 3
+}
 
 [node name="PlayerFieldManager" type="Node2D"]
 script = ExtResource("1_kkpbl")
-player_scene = ExtResource("2_lwkur")
+player_scene = SubResource("PackedScene_gk3m4")
 goalkeeper_scene = ExtResource("3_jlnuh")

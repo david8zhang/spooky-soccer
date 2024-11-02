@@ -27,6 +27,17 @@ func _ready():
 	for c in get_children():
 		raycast_list.append(c)
 
+func update_ray_collision_based_on_side():
+	var parent_field_player = get_parent() as FieldPlayer
+	if parent_field_player.side == FieldPlayer.Side.PLAYER:
+		for ray in raycast_list:
+			ray.set_collision_mask_value(1, false)
+			ray.set_collision_mask_value(2, true)
+	else:
+		for ray in raycast_list:
+			ray.set_collision_mask_value(1, true)
+			ray.set_collision_mask_value(2, false)
+
 
 func _physics_process(_delta):
 	if target_position != null:
