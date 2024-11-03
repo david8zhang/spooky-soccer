@@ -20,3 +20,9 @@ var goalkeeper_config = {
 func _ready():
 	init_players(player_configs, FieldPlayer.Side.CPU)
 	init_goalkeeper(goalkeeper_config, FieldPlayer.Side.CPU)
+
+func get_offensive_zones():
+	return self.game.cpu_offensive_zones
+
+func get_offensive_support_zones():
+	return self.game.cpu_offensive_support_zones

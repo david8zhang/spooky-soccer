@@ -8,6 +8,9 @@ extends Node2D
 @onready var cpu_goal = $RightGoal
 @onready var scoreboard: Label = get_node("/root/Main/CanvasLayer/Scoreboard")
 
+@onready var cpu_offensive_zones = $CPUOffensiveZones as Zones
+@onready var cpu_offensive_support_zones = $CPUOffensiveSupportZones as Zones
+
 var cpu_score = 0
 var player_score = 0
 

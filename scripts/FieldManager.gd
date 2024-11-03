@@ -3,6 +3,8 @@ extends Node
 
 @export var player_scene: PackedScene
 @export var goalkeeper_scene: PackedScene
+@onready var game = get_node("/root/Main") as Game
+
 var field_players = []
 var goalkeeper
 
@@ -23,3 +25,12 @@ func init_goalkeeper(goalkeeper_config, side: FieldPlayer.Side):
 	goalkeeper.side = side
 	goalkeeper.field_manager = self
 	add_child(goalkeeper)
+
+func get_offensive_zones():
+	pass
+
+func get_offensive_support_zones():
+	pass
+
+func get_defensive_zones():
+	pass

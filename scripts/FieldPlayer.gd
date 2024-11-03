@@ -4,6 +4,7 @@ extends RigidBody2D
 const SPEED = 250
 const PASS_SPEED = 500.0
 const SHOOT_SPEED = 750
+const BALL_DRIBBLE_GAP = 25
 
 var is_selected = false
 var has_possession = false
@@ -70,7 +71,7 @@ func _physics_process(_delta):
 	if has_possession:
 		var ball = game.ball as RigidBody2D
 		ball.show()
-		var x_diff = -50 if curr_direction == Direction.LEFT else 50
+		var x_diff = -BALL_DRIBBLE_GAP if curr_direction == Direction.LEFT else BALL_DRIBBLE_GAP
 		ball.global_position = Vector2(global_position.x + x_diff, global_position.y)
 
 	# For checking if the player currently has an open shot on offense
@@ -95,7 +96,7 @@ func shoot_ball():
 	var ball = game.ball
 	# Face toward opponent goal
 	curr_direction = Direction.LEFT if side == Side.CPU else Direction.RIGHT
-	var x_diff = -50 if curr_direction == Direction.LEFT else 50
+	var x_diff = -BALL_DRIBBLE_GAP if curr_direction == Direction.LEFT else BALL_DRIBBLE_GAP
 	ball.global_position = Vector2(global_position.x + x_diff, global_position.y)
 
 	# Shoot ball toward goal
