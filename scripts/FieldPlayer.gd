@@ -9,6 +9,7 @@ const BALL_DRIBBLE_GAP = 25
 var is_selected = false
 var has_possession = false
 var can_take_possession = true
+var is_moving_to_position = false
 var curr_direction
 var pass_target
 var player_name
@@ -121,6 +122,9 @@ func handle_ball_collision():
 func get_opposing_goal():
 	return game.cpu_goal if side == Side.PLAYER else game.player_goal
 
+func get_opposing_field_players():
+	return game.cpu_manager.field_players if side == Side.PLAYER else game.player_manager.field_players
+
 func on_completed_pass():
 	is_selected = false
 	can_take_possession = true
@@ -143,8 +147,10 @@ func side_has_possession():
 
 func move_to_position(dest_position: Vector2, is_at_pos_threshold):
 	if global_position.distance_to(dest_position) <= is_at_pos_threshold:
+		is_moving_to_position = false
 		linear_velocity = Vector2.ZERO
 	else:
+		is_moving_to_position = true
 		context_map.target_position = dest_position
 		var dir = context_map.best_dir
 		var desired_velocity = dir * FieldPlayer.SPEED

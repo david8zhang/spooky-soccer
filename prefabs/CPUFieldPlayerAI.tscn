@@ -11,18 +11,18 @@
 [ext_resource type="Script" path="res://scripts/behavior_tree/ShootBall.gd" id="7_sfdfh"]
 [ext_resource type="Script" path="res://scripts/behavior_tree/IsPassLaneOpen.gd" id="8_45sr2"]
 [ext_resource type="Script" path="res://scripts/behavior_tree/IsOpen.gd" id="8_bns73"]
-[ext_resource type="Script" path="res://scripts/behavior_tree/IsInDanger.gd" id="10_ywh3k"]
 [ext_resource type="Script" path="res://scripts/behavior_tree/SaveOpenPassTarget.gd" id="11_88kw3"]
 [ext_resource type="Script" path="res://scripts/behavior_tree/PassBall.gd" id="11_rjhhn"]
 [ext_resource type="Script" path="res://scripts/behavior_tree/IsAtPositionForTooLong.gd" id="13_n8y3q"]
 [ext_resource type="Script" path="res://scripts/MoveToOffensivePosition.gd" id="14_7ii3g"]
 [ext_resource type="Script" path="res://scripts/behavior_tree/SaveOffensivePosition.gd" id="14_s5dla"]
 [ext_resource type="Script" path="res://scripts/behavior_tree/SaveOffensiveSupportPosition.gd" id="17_hd2kq"]
+[ext_resource type="Script" path="res://scripts/behavior_tree/MoveToOffensiveSupportPosition.gd" id="18_s3nsk"]
 
 [node name="CPUFieldPlayerAI" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_xsn7y")
 blackboard = NodePath("@Node@21128")
-actor = NodePath("")
+actor = NodePath("..")
 
 [node name="RootSequence" type="Node" parent="."]
 script = ExtResource("2_erdwv")
@@ -72,13 +72,7 @@ script = ExtResource("2_erdwv")
 [node name="IsPassLaneOpen" type="Node" parent="RootSequence/OffenseOrDefense/OffenseSequence/OnOrOffball/OnballSequence/ShouldShootOrNot/ShouldPassOrNot/PassSequence"]
 script = ExtResource("8_45sr2")
 
-[node name="OrConditional" type="Node" parent="RootSequence/OffenseOrDefense/OffenseSequence/OnOrOffball/OnballSequence/ShouldShootOrNot/ShouldPassOrNot/PassSequence"]
-script = ExtResource("2_8as02")
-
-[node name="IsInDanger" type="Node" parent="RootSequence/OffenseOrDefense/OffenseSequence/OnOrOffball/OnballSequence/ShouldShootOrNot/ShouldPassOrNot/PassSequence/OrConditional"]
-script = ExtResource("10_ywh3k")
-
-[node name="SaveOpenPassTarget" type="Node" parent="RootSequence/OffenseOrDefense/OffenseSequence/OnOrOffball/OnballSequence/ShouldShootOrNot/ShouldPassOrNot/PassSequence/OrConditional"]
+[node name="SaveOpenPassTarget" type="Node" parent="RootSequence/OffenseOrDefense/OffenseSequence/OnOrOffball/OnballSequence/ShouldShootOrNot/ShouldPassOrNot/PassSequence"]
 script = ExtResource("11_88kw3")
 
 [node name="PassBall" type="Node" parent="RootSequence/OffenseOrDefense/OffenseSequence/OnOrOffball/OnballSequence/ShouldShootOrNot/ShouldPassOrNot/PassSequence"]
@@ -111,8 +105,8 @@ script = ExtResource("13_n8y3q")
 [node name="SaveOffensiveSupportPosition" type="Node" parent="RootSequence/OffenseOrDefense/OffenseSequence/OnOrOffball/ShouldReposition/RepositionSequence"]
 script = ExtResource("17_hd2kq")
 
-[node name="MoveToOffensivePosition" type="Node" parent="RootSequence/OffenseOrDefense/OffenseSequence/OnOrOffball/ShouldReposition"]
-script = ExtResource("14_7ii3g")
+[node name="MoveToOffensiveSupportPosition" type="Node" parent="RootSequence/OffenseOrDefense/OffenseSequence/OnOrOffball/ShouldReposition"]
+script = ExtResource("18_s3nsk")
 
 [node name="Idle" type="Node" parent="RootSequence/OffenseOrDefense"]
 script = ExtResource("6_5pohc")

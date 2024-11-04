@@ -46,12 +46,10 @@ func _physics_process(_delta):
 			var ray = raycast_list[i] as RayCast2D
 			if ray.is_colliding():
 				danger_map[i] = 7
-				danger_map[(i + 3) % danger_map.size()] = 1
 				danger_map[(i + 2) % danger_map.size()] = 2
 				danger_map[(i + 1) % danger_map.size()] = 5
 				danger_map[(i - 1) % danger_map.size()] = 5
 				danger_map[(i - 2) % danger_map.size()] = 2
-				danger_map[(i - 3) % danger_map.size()] = 1
 			else:
 				if danger_map[i] == 0:
 					danger_map[i] = 0
