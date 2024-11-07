@@ -73,25 +73,66 @@ position = Vector2(-300, 125)
 [node name="Zone5" type="Marker2D" parent="CPUOffensiveZones"]
 position = Vector2(-150, 250)
 
+[node name="PlayerOffensiveSupportZones" type="Node" parent="."]
+script = ExtResource("8_pq1xo")
+
+[node name="Zone1" type="Marker2D" parent="PlayerOffensiveSupportZones"]
+position = Vector2(150, -250)
+
+[node name="Zone2" type="Marker2D" parent="PlayerOffensiveSupportZones"]
+position = Vector2(300, -125)
+
+[node name="Zone3" type="Marker2D" parent="PlayerOffensiveSupportZones"]
+position = Vector2(150, 2.08165e-12)
+
+[node name="Zone4" type="Marker2D" parent="PlayerOffensiveSupportZones"]
+position = Vector2(300, 125)
+
+[node name="Zone5" type="Marker2D" parent="PlayerOffensiveSupportZones"]
+position = Vector2(150, 250)
+
 [node name="CPUOffensiveSupportZones" type="Node" parent="."]
 script = ExtResource("8_pq1xo")
 
 [node name="Zone1" type="Marker2D" parent="CPUOffensiveSupportZones"]
 modulate = Color(0, 1, 1, 1)
-position = Vector2(-151, -125)
+position = Vector2(-150, -125)
 
 [node name="Zone2" type="Marker2D" parent="CPUOffensiveSupportZones"]
 modulate = Color(0, 1, 1, 1)
-position = Vector2(-301, -250)
+position = Vector2(-300, -250)
 
 [node name="Zone3" type="Marker2D" parent="CPUOffensiveSupportZones"]
 modulate = Color(0, 1, 1, 1)
-position = Vector2(-301, 0)
+position = Vector2(-300, 2.08165e-12)
 
 [node name="Zone4" type="Marker2D" parent="CPUOffensiveSupportZones"]
 modulate = Color(0, 1, 1, 1)
-position = Vector2(-151, 125)
+position = Vector2(-150, 125)
 
 [node name="Zone5" type="Marker2D" parent="CPUOffensiveSupportZones"]
 modulate = Color(0, 1, 1, 1)
-position = Vector2(-301, 250)
+position = Vector2(-300, 250)
+
+[node name="PlayerOffensiveZones" type="Node" parent="."]
+script = ExtResource("8_pq1xo")
+
+[node name="Zone1" type="Marker2D" parent="PlayerOffensiveZones"]
+modulate = Color(0, 1, 1, 1)
+position = Vector2(150, -125)
+
+[node name="Zone2" type="Marker2D" parent="PlayerOffensiveZones"]
+modulate = Color(0, 1, 1, 1)
+position = Vector2(300, -250)
+
+[node name="Zone3" type="Marker2D" parent="PlayerOffensiveZones"]
+modulate = Color(0, 1, 1, 1)
+position = Vector2(300, 2.08165e-12)
+
+[node name="Zone4" type="Marker2D" parent="PlayerOffensiveZones"]
+modulate = Color(0, 1, 1, 1)
+position = Vector2(150, 125)
+
+[node name="Zone5" type="Marker2D" parent="PlayerOffensiveZones"]
+modulate = Color(0, 1, 1, 1)
+position = Vector2(300, 250)
