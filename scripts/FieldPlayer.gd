@@ -134,6 +134,9 @@ func take_poss_of_ball():
 	var ball = game.ball as Ball
 	ball.linear_velocity = Vector2.ZERO
 	ball.disable_collision_detector()
+	var curr_ball_handler = game.get_ball_handler()
+	if curr_ball_handler != null and curr_ball_handler != self:
+		curr_ball_handler.lose_possession()
 	has_possession = true
 
 func lose_poss_of_ball():
@@ -178,3 +181,6 @@ func get_closest_enemy_field_player():
 			closest_field_player = p
 			closest_dist = dist_to_player
 	return closest_field_player
+
+func steal_ball():
+	take_poss_of_ball()

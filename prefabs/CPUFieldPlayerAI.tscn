@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://hs88tdqlwcn7"]
+[gd_scene load_steps=24 format=3 uid="uid://hs88tdqlwcn7"]
 
 [ext_resource type="Script" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_xsn7y"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/composites/selector.gd" id="2_8as02"]
@@ -6,7 +6,6 @@
 [ext_resource type="Script" path="res://scripts/behavior_tree/IsOnOffense.gd" id="4_xwktl"]
 [ext_resource type="Script" path="res://scripts/behavior_tree/InitCPUBlackboard.gd" id="4_yn38g"]
 [ext_resource type="Script" path="res://scripts/behavior_tree/IsOnball.gd" id="5_ltyea"]
-[ext_resource type="Script" path="res://scripts/behavior_tree/Idle.gd" id="6_5pohc"]
 [ext_resource type="Script" path="res://scripts/behavior_tree/NearOpponentGoal.gd" id="7_00q7c"]
 [ext_resource type="Script" path="res://scripts/behavior_tree/ShootBall.gd" id="7_sfdfh"]
 [ext_resource type="Script" path="res://scripts/behavior_tree/IsPassLaneOpen.gd" id="8_45sr2"]
@@ -14,10 +13,16 @@
 [ext_resource type="Script" path="res://scripts/behavior_tree/SaveOpenPassTarget.gd" id="11_88kw3"]
 [ext_resource type="Script" path="res://scripts/behavior_tree/PassBall.gd" id="11_rjhhn"]
 [ext_resource type="Script" path="res://scripts/behavior_tree/IsAtPositionForTooLong.gd" id="13_n8y3q"]
-[ext_resource type="Script" path="res://scripts/MoveToOffensivePosition.gd" id="14_7ii3g"]
 [ext_resource type="Script" path="res://scripts/behavior_tree/SaveOffensivePosition.gd" id="14_s5dla"]
+[ext_resource type="Script" path="res://scripts/behavior_tree/MoveToOffensivePosition.gd" id="15_svf2b"]
 [ext_resource type="Script" path="res://scripts/behavior_tree/SaveOffensiveSupportPosition.gd" id="17_hd2kq"]
+[ext_resource type="Script" path="res://scripts/behavior_tree/AssignDefensiveBehavior.gd" id="18_83gaw"]
 [ext_resource type="Script" path="res://scripts/behavior_tree/MoveToOffensiveSupportPosition.gd" id="18_s3nsk"]
+[ext_resource type="Script" path="res://scripts/behavior_tree/ShouldGoForSteal.gd" id="19_yqsl7"]
+[ext_resource type="Script" path="res://scripts/behavior_tree/IsInStealRange.gd" id="20_nf5h4"]
+[ext_resource type="Script" path="res://scripts/behavior_tree/StealBall.gd" id="21_op08r"]
+[ext_resource type="Script" path="res://scripts/behavior_tree/ChaseBallHandler.gd" id="22_twyp3"]
+[ext_resource type="Script" path="res://scripts/behavior_tree/MoveToDefensivePosition.gd" id="23_yudub"]
 
 [node name="CPUFieldPlayerAI" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_xsn7y")
@@ -91,7 +96,7 @@ script = ExtResource("13_n8y3q")
 script = ExtResource("14_s5dla")
 
 [node name="MoveToOffensivePosition" type="Node" parent="RootSequence/OffenseOrDefense/OffenseSequence/OnOrOffball/OnballSequence/ShouldShootOrNot/ShouldPassOrNot/ShouldReposition"]
-script = ExtResource("14_7ii3g")
+script = ExtResource("15_svf2b")
 
 [node name="ShouldReposition" type="Node" parent="RootSequence/OffenseOrDefense/OffenseSequence/OnOrOffball"]
 script = ExtResource("2_8as02")
@@ -108,5 +113,35 @@ script = ExtResource("17_hd2kq")
 [node name="MoveToOffensiveSupportPosition" type="Node" parent="RootSequence/OffenseOrDefense/OffenseSequence/OnOrOffball/ShouldReposition"]
 script = ExtResource("18_s3nsk")
 
-[node name="Idle" type="Node" parent="RootSequence/OffenseOrDefense"]
-script = ExtResource("6_5pohc")
+[node name="DefenseSequence" type="Node" parent="RootSequence/OffenseOrDefense"]
+script = ExtResource("2_erdwv")
+
+[node name="AssignDefensiveBehavior" type="Node" parent="RootSequence/OffenseOrDefense/DefenseSequence"]
+script = ExtResource("18_83gaw")
+
+[node name="DefensiveBehaviorSelector" type="Node" parent="RootSequence/OffenseOrDefense/DefenseSequence"]
+script = ExtResource("2_8as02")
+
+[node name="GoForStealSequence" type="Node" parent="RootSequence/OffenseOrDefense/DefenseSequence/DefensiveBehaviorSelector"]
+script = ExtResource("2_erdwv")
+
+[node name="ShouldGoForSteal" type="Node" parent="RootSequence/OffenseOrDefense/DefenseSequence/DefensiveBehaviorSelector/GoForStealSequence"]
+script = ExtResource("19_yqsl7")
+
+[node name="StealOrChaseBallHandler" type="Node" parent="RootSequence/OffenseOrDefense/DefenseSequence/DefensiveBehaviorSelector/GoForStealSequence"]
+script = ExtResource("2_8as02")
+
+[node name="StealSequence" type="Node" parent="RootSequence/OffenseOrDefense/DefenseSequence/DefensiveBehaviorSelector/GoForStealSequence/StealOrChaseBallHandler"]
+script = ExtResource("2_erdwv")
+
+[node name="IsInStealRange" type="Node" parent="RootSequence/OffenseOrDefense/DefenseSequence/DefensiveBehaviorSelector/GoForStealSequence/StealOrChaseBallHandler/StealSequence"]
+script = ExtResource("20_nf5h4")
+
+[node name="StealBall" type="Node" parent="RootSequence/OffenseOrDefense/DefenseSequence/DefensiveBehaviorSelector/GoForStealSequence/StealOrChaseBallHandler/StealSequence"]
+script = ExtResource("21_op08r")
+
+[node name="ChaseBallHandler" type="Node" parent="RootSequence/OffenseOrDefense/DefenseSequence/DefensiveBehaviorSelector/GoForStealSequence/StealOrChaseBallHandler"]
+script = ExtResource("22_twyp3")
+
+[node name="MoveToDefensivePosition" type="Node" parent="RootSequence/OffenseOrDefense/DefenseSequence/DefensiveBehaviorSelector"]
+script = ExtResource("23_yudub")

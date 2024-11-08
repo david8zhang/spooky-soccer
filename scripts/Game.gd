@@ -29,7 +29,6 @@ func on_player_scored():
 	player_score += 1
 	scoreboard.text = str(player_score) + "-" + str(cpu_score)
 
-
 func reset_after_score(last_scored_side: FieldPlayer.Side):
 	if last_scored_side == FieldPlayer.Side.PLAYER:
 		var cpu_player = cpu_manager.field_players[0] as FieldPlayer
@@ -37,3 +36,12 @@ func reset_after_score(last_scored_side: FieldPlayer.Side):
 	elif last_scored_side == FieldPlayer.Side.CPU:
 		var player = player_manager.field_players[0] as FieldPlayer
 		player.take_poss_of_ball()
+
+func get_ball_handler():
+	for p in player_manager.field_players:
+		if p.has_possession:
+			return p
+	for p in cpu_manager.field_players:
+		if p.has_possession:
+			return p
+	return null
