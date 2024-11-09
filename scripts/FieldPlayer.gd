@@ -136,7 +136,7 @@ func take_poss_of_ball():
 	ball.disable_collision_detector()
 	var curr_ball_handler = game.get_ball_handler()
 	if curr_ball_handler != null and curr_ball_handler != self:
-		curr_ball_handler.lose_possession()
+		curr_ball_handler.lose_poss_of_ball()
 	has_possession = true
 
 func lose_poss_of_ball():
