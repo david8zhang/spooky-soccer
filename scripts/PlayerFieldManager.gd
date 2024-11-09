@@ -23,6 +23,7 @@ func _ready():
 	init_players(player_configs, FieldPlayer.Side.PLAYER)
 	init_goalkeeper(goalkeeper_config, FieldPlayer.Side.PLAYER)
 	field_players[0].is_selected = true
+	game.all_ready.connect(all_ready)
 
 func select_new_player(field_player: FieldPlayer):
 	if selected_player != null and selected_player != field_player:
@@ -30,3 +31,9 @@ func select_new_player(field_player: FieldPlayer):
 		selected_player.lose_poss_of_ball()
 	field_player.is_selected = true
 	selected_player = field_player
+
+func all_ready():
+	super.assign_defenders()
+
+func get_opposing_manager():
+	return game.cpu_manager

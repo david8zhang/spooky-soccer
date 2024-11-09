@@ -1,7 +1,7 @@
 class_name IsInDanger
 extends ConditionLeaf
 
-static var DANGER_THRESHOLD = 50
+static var DANGER_THRESHOLD = 100
 
 func tick(actor: Node, _blackboard: Blackboard):
 	var field_player = actor as FieldPlayer

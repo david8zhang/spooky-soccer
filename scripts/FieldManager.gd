@@ -6,6 +6,7 @@ extends Node
 @onready var game = get_node("/root/Main") as Game
 
 var field_players = []
+var defensive_assignments = {}
 var goalkeeper
 
 func init_players(player_configs, side: FieldPlayer.Side):
@@ -34,3 +35,25 @@ func get_offensive_support_zones():
 
 func get_defensive_zones():
 	pass
+
+func get_opposing_manager():
+	pass
+
+func assign_defenders():
+	var opp_players = get_opposing_manager().field_players
+	var opp_player_names = opp_players.map(func(player: FieldPlayer): return player.player_name)
+	opp_player_names.shuffle()
+	for i in range(0, opp_player_names.size()):
+		var player = field_players[i]
+		defensive_assignments[player.player_name] = opp_player_names[i]
+
+func get_player_to_defend(player_name: String):
+	if defensive_assignments.has(player_name):
+		var opp_player_name = defensive_assignments[player_name]
+		var opp_players = get_opposing_manager().field_players
+		for p in opp_players:
+			if p.player_name == opp_player_name:
+				return p
+		return null
+	else:
+		return null

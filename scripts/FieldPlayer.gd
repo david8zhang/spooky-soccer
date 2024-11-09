@@ -118,6 +118,9 @@ func handle_ball_collision():
 			if prev_possessor != null:
 				prev_possessor.can_take_possession = true
 		take_poss_of_ball()
+	
+func get_self_goal():
+	return game.cpu_goal if side == Side.CPU else game.player_goal
 
 func get_opposing_goal():
 	return game.cpu_goal if side == Side.PLAYER else game.player_goal
@@ -159,6 +162,9 @@ func move_to_position(dest_position: Vector2, is_at_pos_threshold):
 		var desired_velocity = dir * FieldPlayer.SPEED
 		var steering_force = desired_velocity - linear_velocity
 		linear_velocity = linear_velocity + (steering_force * 2 * 0.0167)
+
+func move_in_direction(dir: Vector2):
+	linear_velocity = dir.normalized() * FieldPlayer.SPEED
 
 func has_open_shot():
 	return !ray_to_goal.is_colliding()
