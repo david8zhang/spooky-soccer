@@ -7,7 +7,8 @@ enum POSS_STATUS {
 	PLAYER_PASS,
 	CPU_PASS,
 	SHOT_ON_PLAYER_GOAL,
-	SHOT_ON_CPU_GOAL
+	SHOT_ON_CPU_GOAL,
+	LOOSE
 }
 
 @onready var collision_detector = $CollisionDetector/CollisionShape2D

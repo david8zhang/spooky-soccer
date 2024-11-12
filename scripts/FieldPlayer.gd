@@ -82,8 +82,13 @@ func _physics_process(_delta):
 
 func pass_ball():
 	if pass_target != null:
+		var ball = game.ball
+		# Face toward pass_target
+		curr_direction = Direction.LEFT if global_position.x > pass_target.global_position.x else Direction.RIGHT
+		var x_diff = -BALL_DRIBBLE_GAP if curr_direction == Direction.LEFT else BALL_DRIBBLE_GAP
+		ball.global_position = Vector2(global_position.x + x_diff, global_position.y)
+
 		can_take_possession = false
-		var ball = game.ball as Ball
 		var dir = (pass_target.global_position - ball.global_position).normalized()
 		var velocity_vector = dir * PASS_SPEED
 		ball.linear_velocity = velocity_vector

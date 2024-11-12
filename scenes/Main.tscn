@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cp4h3kopc4ei8"]
+[gd_scene load_steps=14 format=3 uid="uid://cp4h3kopc4ei8"]
 
 [ext_resource type="Script" path="res://scripts/Game.gd" id="1_0qwq3"]
 [ext_resource type="PackedScene" uid="uid://d03yj7smxqk6c" path="res://prefabs/PlayerFieldManager.tscn" id="1_uj31e"]
@@ -11,6 +11,22 @@
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_nmsru"]
 bounce = 0.25
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_8lb4b"]
+a = Vector2(-576, 2.08165e-12)
+b = Vector2(576, 2.08165e-12)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_p2b0c"]
+a = Vector2(-576, 2.08165e-12)
+b = Vector2(576, 10)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_rdhin"]
+a = Vector2(2.08165e-12, -324)
+b = Vector2(2.08165e-12, 324)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_mue10"]
+a = Vector2(2.08165e-12, -324)
+b = Vector2(2.08165e-12, 324)
 
 [node name="Main" type="Node2D"]
 position = Vector2(2.08165e-12, 2.08165e-12)
@@ -113,3 +129,39 @@ position = Vector2(-150, 125)
 [node name="Zone5" type="Marker2D" parent="CPUOffensiveSupportZones"]
 modulate = Color(0, 1, 1, 1)
 position = Vector2(-300, 250)
+
+[node name="TopWall" type="StaticBody2D" parent="."]
+position = Vector2(2.08165e-12, -324)
+collision_layer = 32
+collision_mask = 31
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TopWall"]
+shape = SubResource("SegmentShape2D_8lb4b")
+debug_color = Color(0.972549, 0.164706, 0, 0.419608)
+
+[node name="BottomWall" type="StaticBody2D" parent="."]
+position = Vector2(2.08165e-12, 324)
+collision_layer = 32
+collision_mask = 31
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BottomWall"]
+shape = SubResource("SegmentShape2D_p2b0c")
+debug_color = Color(0.972549, 0.164706, 0, 0.419608)
+
+[node name="LeftWall" type="StaticBody2D" parent="."]
+position = Vector2(-576, 2.08165e-12)
+collision_layer = 32
+collision_mask = 31
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall"]
+shape = SubResource("SegmentShape2D_rdhin")
+debug_color = Color(0.972549, 0.164706, 0, 0.419608)
+
+[node name="RightWall" type="StaticBody2D" parent="."]
+position = Vector2(576, 2.08165e-12)
+collision_layer = 32
+collision_mask = 31
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall"]
+shape = SubResource("SegmentShape2D_mue10")
+debug_color = Color(0.972549, 0.164706, 0, 0.419608)
