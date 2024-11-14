@@ -2,8 +2,8 @@ class_name PlayerFieldPlayer
 extends FieldPlayer
 
 func _physics_process(_delta):
-	linear_velocity = Vector2.ZERO
 	if is_selected:
+		linear_velocity = Vector2.ZERO
 		if Input.is_action_pressed("move_right"):
 			linear_velocity.x += 1
 		if Input.is_action_pressed("move_left"):
@@ -21,14 +21,12 @@ func _physics_process(_delta):
 		elif linear_velocity.x > 0:
 			curr_direction = Direction.RIGHT
 
-	if has_possession:
-		# Pass ball
-		if Input.is_action_just_pressed("pass"):
-			pass_ball()
-
-		if Input.is_action_just_pressed("shoot"):
-			shoot_ball()
-		update_pass_target(linear_velocity)
+		if has_possession:
+			if Input.is_action_just_pressed("pass"):
+				pass_ball()
+			if Input.is_action_just_pressed("shoot"):
+				shoot_ball()
+			update_pass_target(linear_velocity)
 	super._physics_process(_delta)
 
 func update_pass_target(curr_velocity: Vector2):

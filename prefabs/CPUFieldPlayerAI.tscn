@@ -30,8 +30,8 @@
 
 [node name="CPUFieldPlayerAI" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_xsn7y")
-blackboard = NodePath("@Node@21128")
-actor = NodePath("..")
+blackboard = NodePath("@Node@17991")
+actor = NodePath("")
 
 [node name="RootSequence" type="Node" parent="."]
 script = ExtResource("2_erdwv")

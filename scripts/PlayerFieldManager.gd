@@ -37,3 +37,6 @@ func all_ready():
 
 func get_opposing_manager():
 	return game.cpu_manager
+
+func get_offensive_support_zones():
+	return self.game.player_offensive_zones

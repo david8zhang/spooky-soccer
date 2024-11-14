@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://cb8pxunyr2q10"]
+[gd_scene load_steps=8 format=3 uid="uid://cb8pxunyr2q10"]
 
 [ext_resource type="Texture2D" uid="uid://dqa181oq1x6gn" path="res://icon.svg" id="1_48ndw"]
 [ext_resource type="Script" path="res://scripts/PlayerFieldPlayer.gd" id="1_ejapt"]
+[ext_resource type="PackedScene" uid="uid://cihkyuapvdyc" path="res://prefabs/PlayerFieldPlayerAI.tscn" id="2_ede0m"]
 [ext_resource type="PackedScene" uid="uid://bvwulw0o1p2y6" path="res://prefabs/ContextMap.tscn" id="2_xnjla"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fto0y"]
@@ -27,6 +28,9 @@ height = 48.0
 collision_mask = 32
 lock_rotation = true
 script = ExtResource("1_ejapt")
+
+[node name="PlayerFieldPlayerAI" parent="." node_paths=PackedStringArray("blackboard") instance=ExtResource("2_ede0m")]
+blackboard = NodePath("@Node@18673")
 
 [node name="ContextMap" parent="." instance=ExtResource("2_xnjla")]
 
