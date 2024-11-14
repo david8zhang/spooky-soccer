@@ -95,7 +95,6 @@ func pass_ball():
 		ball.curr_poss_status = Ball.POSS_STATUS.PLAYER_PASS if side == Side.PLAYER else Ball.POSS_STATUS.CPU_PASS
 		ball.metadata["prev_possessor"] = self
 		ball.enable_collision_detector()
-		is_selected = false
 		lose_poss_of_ball()
 
 func shoot_ball():
@@ -134,7 +133,6 @@ func get_opposing_field_players():
 	return game.cpu_manager.field_players if side == Side.PLAYER else game.player_manager.field_players
 
 func on_completed_pass():
-	is_selected = false
 	can_take_possession = true
 	pass_target = null
 

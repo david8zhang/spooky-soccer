@@ -2,7 +2,8 @@ class_name PlayerFieldPlayer
 extends FieldPlayer
 
 func _physics_process(_delta):
-	if is_selected:
+	var player_field_manager = field_manager as PlayerFieldManager
+	if player_field_manager.selected_player == self:
 		linear_velocity = Vector2.ZERO
 		if Input.is_action_pressed("move_right"):
 			linear_velocity.x += 1
