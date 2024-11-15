@@ -92,7 +92,7 @@ func pass_ball():
 		var dir = (pass_target.global_position - ball.global_position).normalized()
 		var velocity_vector = dir * PASS_SPEED
 		ball.linear_velocity = velocity_vector
-		ball.curr_poss_status = Ball.POSS_STATUS.PLAYER_PASS if side == Side.PLAYER else Ball.POSS_STATUS.CPU_PASS
+		ball.curr_poss_status = Ball.POSS_STATUS.LOOSE
 		ball.metadata["prev_possessor"] = self
 		ball.enable_collision_detector()
 		lose_poss_of_ball()
@@ -108,20 +108,14 @@ func shoot_ball():
 	var opp_goal = get_opposing_goal()
 	var dir = (opp_goal.global_position - ball.global_position).normalized()
 	var velocity_vector = dir * SHOOT_SPEED
-	ball.curr_poss_status = Ball.POSS_STATUS.SHOT_ON_CPU_GOAL
+	ball.curr_poss_status = Ball.POSS_STATUS.SHOT_ON_CPU_GOAL if side == Side.PLAYER else Ball.POSS_STATUS.SHOT_ON_PLAYER_GOAL
 	ball.metadata["shot_force"] = shot_force
 	ball.enable_collision_detector()
 	ball.linear_velocity = velocity_vector
 	lose_poss_of_ball()
 
 func handle_ball_collision():
-	var ball = game.ball as Ball
-	if can_take_possession:
-		if ball.curr_poss_status == Ball.POSS_STATUS.PLAYER_PASS or ball.curr_poss_status == Ball.POSS_STATUS.CPU_PASS:
-			var prev_possessor = ball.metadata["prev_possessor"]
-			if prev_possessor != null:
-				prev_possessor.can_take_possession = true
-		take_poss_of_ball()
+	take_poss_of_ball()
 	
 func get_self_goal():
 	return game.cpu_goal if side == Side.CPU else game.player_goal
@@ -139,7 +133,7 @@ func on_completed_pass():
 func take_poss_of_ball():
 	var ball = game.ball as Ball
 	ball.linear_velocity = Vector2.ZERO
-	ball.disable_collision_detector()
+	ball.curr_poss_status = Ball.POSS_STATUS.PLAYER if side == Side.PLAYER else Ball.POSS_STATUS.CPU
 	var curr_ball_handler = game.get_ball_handler()
 	if curr_ball_handler != null and curr_ball_handler != self:
 		curr_ball_handler.lose_poss_of_ball()

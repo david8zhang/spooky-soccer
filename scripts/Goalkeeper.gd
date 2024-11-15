@@ -12,7 +12,9 @@ func _ready():
 
 func handle_ball_collision():
   var ball = game.ball as Ball
-  var stamina_dmg = ball.metadata["shot_force"]
-  save_meter.value = max(0, save_meter.value - stamina_dmg)
-  if save_meter.value > 0:
-    super.handle_ball_collision()
+  if ball.curr_poss_status == Ball.POSS_STATUS.SHOT_ON_CPU_GOAL or \
+    ball.curr_poss_status == Ball.POSS_STATUS.SHOT_ON_PLAYER_GOAL:
+    var stamina_dmg = ball.metadata["shot_force"]
+    save_meter.value = max(0, save_meter.value - stamina_dmg)
+    if save_meter.value > 0:
+      super.handle_ball_collision()
