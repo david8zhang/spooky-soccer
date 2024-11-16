@@ -1,26 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://cb574qavck54v"]
+[gd_scene load_steps=4 format=3 uid="uid://cb574qavck54v"]
 
 [ext_resource type="Script" path="res://scripts/Goalkeeper.gd" id="1_84vqb"]
-[ext_resource type="Texture2D" uid="uid://dqa181oq1x6gn" path="res://icon.svg" id="2_wv3kd"]
+[ext_resource type="SpriteFrames" uid="uid://iqxe17nu1a11" path="res://animations/gk-placeholder.tres" id="2_0ud0r"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_fto0y"]
-atlas = ExtResource("2_wv3kd")
-region = Rect2(0, 0, 128, 128)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_3k4l4"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_fto0y")
-}],
-"loop": true,
-"name": &"placeholder",
-"speed": 5.0
-}]
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3yi85"]
-radius = 12.0
-height = 48.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3vlyp"]
+size = Vector2(32, 56)
 
 [node name="Goalkeeper" type="RigidBody2D"]
 collision_layer = 8
@@ -30,12 +14,13 @@ script = ExtResource("1_84vqb")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -4.76837e-07)
-scale = Vector2(0.1875, 0.382812)
-sprite_frames = SubResource("SpriteFrames_3k4l4")
-animation = &"placeholder"
+scale = Vector2(4, 4)
+sprite_frames = ExtResource("2_0ud0r")
+animation = &"player-placeholder"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_3yi85")
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_3vlyp")
 
 [node name="SaveMeter" type="ProgressBar" parent="."]
 offset_left = -25.0

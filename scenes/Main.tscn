@@ -18,7 +18,7 @@ b = Vector2(576, 2.08165e-12)
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_p2b0c"]
 a = Vector2(-576, 2.08165e-12)
-b = Vector2(576, 10)
+b = Vector2(576, 2.08165e-12)
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_rdhin"]
 a = Vector2(2.08165e-12, -324)

@@ -1,0 +1,23 @@
+[gd_resource type="SpriteFrames" load_steps=3 format=3 uid="uid://iqxe17nu1a11"]
+
+[ext_resource type="Texture2D" uid="uid://b6lcwd0htpn6k" path="res://sprites/base-cpu.png" id="1_36tnx"]
+[ext_resource type="Texture2D" uid="uid://da64npx3om5oc" path="res://sprites/base-player.png" id="2_saudl"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_36tnx")
+}],
+"loop": true,
+"name": &"cpu-placeholder",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_saudl")
+}],
+"loop": true,
+"name": &"player-placeholder",
+"speed": 5.0
+}]

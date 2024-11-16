@@ -42,20 +42,9 @@ func update_pass_target(curr_velocity: Vector2):
 				closest_player = player
 
 	# Update pass target
-	if pass_target != null and pass_target != closest_player:
-		pass_target.hide_highlight()
 	pass_target = closest_player
-	if has_possession and side == Side.PLAYER:
-		pass_target.show_highlight()
-
-func show_highlight():
-	self.modulate = Color(255, 0, 0, 0.25)
-
-func hide_highlight():
-	self.modulate = Color.WHITE
 
 func take_poss_of_ball():
 	super.take_poss_of_ball()
-	hide_highlight()
 	var player_manager = field_manager as PlayerFieldManager
 	player_manager.select_new_player(self)

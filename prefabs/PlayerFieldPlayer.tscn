@@ -1,28 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://cb8pxunyr2q10"]
+[gd_scene load_steps=6 format=3 uid="uid://cb8pxunyr2q10"]
 
-[ext_resource type="Texture2D" uid="uid://dqa181oq1x6gn" path="res://icon.svg" id="1_48ndw"]
 [ext_resource type="Script" path="res://scripts/PlayerFieldPlayer.gd" id="1_ejapt"]
 [ext_resource type="PackedScene" uid="uid://cihkyuapvdyc" path="res://prefabs/PlayerFieldPlayerAI.tscn" id="2_ede0m"]
 [ext_resource type="PackedScene" uid="uid://bvwulw0o1p2y6" path="res://prefabs/ContextMap.tscn" id="2_xnjla"]
+[ext_resource type="SpriteFrames" uid="uid://vthbpqfddnrx" path="res://animations/fp-placeholder.tres" id="4_e6h0e"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_fto0y"]
-atlas = ExtResource("1_48ndw")
-region = Rect2(0, 0, 128, 128)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_wl6kh"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_fto0y")
-}],
-"loop": true,
-"name": &"placeholder",
-"speed": 5.0
-}]
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qv6rt"]
-radius = 12.0
-height = 48.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_at8gu"]
+size = Vector2(32, 56)
 
 [node name="PlayerFieldPlayer" type="RigidBody2D"]
 collision_mask = 32
@@ -30,18 +14,19 @@ lock_rotation = true
 script = ExtResource("1_ejapt")
 
 [node name="PlayerFieldPlayerAI" parent="." node_paths=PackedStringArray("blackboard") instance=ExtResource("2_ede0m")]
-blackboard = NodePath("@Node@27211")
+blackboard = NodePath("@Node@82170")
 
 [node name="ContextMap" parent="." instance=ExtResource("2_xnjla")]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -4.76837e-07)
-scale = Vector2(0.1875, 0.382812)
-sprite_frames = SubResource("SpriteFrames_wl6kh")
-animation = &"placeholder"
+scale = Vector2(4, 4)
+sprite_frames = ExtResource("4_e6h0e")
+animation = &"player-placeholder"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_qv6rt")
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_at8gu")
 
 [node name="RayToGoal" type="RayCast2D" parent="."]
 modulate = Color(0, 1, 0, 1)

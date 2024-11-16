@@ -5,10 +5,15 @@ extends FieldPlayer
 # Ever save depletes the save meter, and once empty, the next shot is guaranteed to go in
 
 @onready var save_meter = $SaveMeter as ProgressBar
+@onready var animated_sprite = $AnimatedSprite2D as AnimatedSprite2D
 
 func _ready():
   curr_direction = Direction.LEFT if side == Side.CPU else Direction.RIGHT
   save_meter.value = 100
+  if side == Side.CPU:
+    animated_sprite.play("cpu-placeholder")
+  else:
+    animated_sprite.play("player-placeholder")
 
 func handle_ball_collision():
   var ball = game.ball as Ball
