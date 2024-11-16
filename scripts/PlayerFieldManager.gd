@@ -40,3 +40,9 @@ func get_opposing_manager():
 
 func get_offensive_support_zones():
 	return self.game.player_offensive_zones
+
+func get_default_position(player_name):
+	for config in player_configs:
+		if config.name == player_name:
+			return config.position
+	return null

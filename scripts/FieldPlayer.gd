@@ -94,7 +94,6 @@ func pass_ball():
 		ball.linear_velocity = velocity_vector
 		ball.curr_poss_status = Ball.POSS_STATUS.LOOSE
 		ball.metadata["prev_possessor"] = self
-		ball.enable_collision_detector()
 		lose_poss_of_ball()
 
 func shoot_ball():
@@ -110,7 +109,6 @@ func shoot_ball():
 	var velocity_vector = dir * SHOOT_SPEED
 	ball.curr_poss_status = Ball.POSS_STATUS.SHOT_ON_CPU_GOAL if side == Side.PLAYER else Ball.POSS_STATUS.SHOT_ON_PLAYER_GOAL
 	ball.metadata["shot_force"] = shot_force
-	ball.enable_collision_detector()
 	ball.linear_velocity = velocity_vector
 	lose_poss_of_ball()
 

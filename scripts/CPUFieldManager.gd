@@ -33,3 +33,9 @@ func get_opposing_manager():
 
 func all_ready():
 	super.assign_defenders()
+
+func get_default_position(player_name):
+	for config in player_configs:
+		if config.name == player_name:
+			return config.position
+	return null

@@ -57,3 +57,6 @@ func get_player_to_defend(player_name: String):
 		return null
 	else:
 		return null
+
+func get_default_position(_player_name):
+	pass
