@@ -14,6 +14,7 @@ extends Node2D
 
 var cpu_score = 0
 var player_score = 0
+var just_scored = false
 
 signal all_ready
 
@@ -31,6 +32,7 @@ func on_player_scored():
 	scoreboard.text = str(player_score) + "-" + str(cpu_score)
 
 func reset_after_score(last_scored_side: FieldPlayer.Side):
+	just_scored = false
 	if last_scored_side == FieldPlayer.Side.PLAYER:
 		var cpu_player = cpu_manager.field_players[0] as FieldPlayer
 		cpu_player.take_poss_of_ball()

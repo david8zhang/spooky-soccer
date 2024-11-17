@@ -17,7 +17,7 @@ script = ExtResource("1_k72m6")
 [node name="ContextMap" parent="." instance=ExtResource("2_vai8v")]
 
 [node name="CPUFieldPlayerAI" parent="." node_paths=PackedStringArray("blackboard", "actor") instance=ExtResource("2_4laok")]
-blackboard = NodePath("@Node@63348")
+blackboard = NodePath("@Node@19343")
 actor = NodePath("..")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

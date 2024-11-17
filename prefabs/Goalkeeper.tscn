@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://cb574qavck54v"]
+[gd_scene load_steps=5 format=3 uid="uid://cb574qavck54v"]
 
 [ext_resource type="Script" path="res://scripts/Goalkeeper.gd" id="1_84vqb"]
 [ext_resource type="SpriteFrames" uid="uid://iqxe17nu1a11" path="res://animations/gk-placeholder.tres" id="2_0ud0r"]
+[ext_resource type="PackedScene" uid="uid://bvwulw0o1p2y6" path="res://prefabs/ContextMap.tscn" id="2_i5keq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3vlyp"]
 size = Vector2(32, 56)
@@ -11,6 +12,8 @@ collision_layer = 8
 collision_mask = 33
 lock_rotation = true
 script = ExtResource("1_84vqb")
+
+[node name="ContextMap" parent="." instance=ExtResource("2_i5keq")]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -4.76837e-07)

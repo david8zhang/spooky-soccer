@@ -8,7 +8,7 @@ var side_just_scored
 func handle_ball_collision(ball: Ball):
 	ball.linear_velocity = Vector2.ZERO
 	ball.hide()
-
+	game.just_scored = true
 	side_just_scored = FieldPlayer.Side.PLAYER
 	if side == FieldPlayer.Side.PLAYER:
 		game.on_cpu_scored()
