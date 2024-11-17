@@ -1,7 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://dbagi233oshw7"]
+[gd_scene load_steps=8 format=3 uid="uid://dbagi233oshw7"]
 
 [ext_resource type="Texture2D" uid="uid://dqa181oq1x6gn" path="res://icon.svg" id="1_d7obc"]
 [ext_resource type="Script" path="res://scripts/Ball.gd" id="1_i56ne"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lrefx"]
+bounce = 0.4
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1idcn"]
 atlas = ExtResource("1_d7obc")
@@ -27,6 +30,7 @@ radius = 7.0
 [node name="Ball" type="RigidBody2D"]
 collision_layer = 4
 collision_mask = 32
+physics_material_override = SubResource("PhysicsMaterial_lrefx")
 max_contacts_reported = 1
 lock_rotation = true
 script = ExtResource("1_i56ne")

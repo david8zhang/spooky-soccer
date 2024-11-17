@@ -22,7 +22,11 @@ func handle_ball_collision():
     var stamina_dmg = ball.metadata["shot_force"]
     save_meter.value = max(0, save_meter.value - stamina_dmg)
     if save_meter.value > 0:
-      super.handle_ball_collision()
+      # random ricochet
+      var x_pos = 300 if side == Side.CPU else -300
+      var y_pos = randi_range(-300, 300)
+      var dir = Vector2(x_pos, y_pos) - global_position
+      ball.linear_velocity = dir.normalized() * FieldPlayer.SHOOT_SPEED * 0.3
 	
 func _physics_process(_delta):
   var closest_enemy = get_closest_enemy_field_player()

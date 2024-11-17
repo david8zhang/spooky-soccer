@@ -16,7 +16,7 @@ var player_name
 var side
 
 # Stamina damage to goalkeeper from shot
-var shot_force = 100
+var shot_force = 30
 
 enum Side {
 	PLAYER,
