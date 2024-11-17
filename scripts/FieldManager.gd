@@ -39,6 +39,13 @@ func get_defensive_zones():
 func get_opposing_manager():
 	pass
 
+func get_default_position(_player_name):
+	pass
+
+func reset_after_score(_last_scored_side):
+	for player in field_players:
+		player.global_position = get_default_position(player.player_name)
+
 func assign_defenders():
 	var opp_players = get_opposing_manager().field_players
 	var opp_player_names = opp_players.map(func(player: FieldPlayer): return player.player_name)
@@ -57,6 +64,3 @@ func get_player_to_defend(player_name: String):
 		return null
 	else:
 		return null
-
-func get_default_position(_player_name):
-	pass

@@ -27,6 +27,7 @@ func handle_ball_collision():
       var y_pos = randi_range(-300, 300)
       var dir = Vector2(x_pos, y_pos) - global_position
       ball.linear_velocity = dir.normalized() * FieldPlayer.SHOOT_SPEED * 0.3
+      ball.curr_poss_status = Ball.POSS_STATUS.LOOSE
 	
 func _physics_process(_delta):
   var closest_enemy = get_closest_enemy_field_player()

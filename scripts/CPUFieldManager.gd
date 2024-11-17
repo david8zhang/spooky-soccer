@@ -39,3 +39,8 @@ func get_default_position(player_name):
 		if config.name == player_name:
 			return config.position
 	return null
+
+func reset_after_score(last_scored_side):
+	super.reset_after_score(last_scored_side)
+	if last_scored_side != FieldPlayer.Side.CPU:
+		field_players[0].take_poss_of_ball()

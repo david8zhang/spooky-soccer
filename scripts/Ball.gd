@@ -31,3 +31,8 @@ func _on_field_player_detector_body_entered(body):
 	if body is Goal:
 		var goal = body as Goal
 		goal.handle_ball_collision(self)
+
+func is_loose():
+	return curr_poss_status == POSS_STATUS.SHOT_ON_CPU_GOAL or \
+		curr_poss_status == POSS_STATUS.SHOT_ON_PLAYER_GOAL or \
+		curr_poss_status == POSS_STATUS.LOOSE

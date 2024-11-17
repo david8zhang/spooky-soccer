@@ -2,14 +2,16 @@ class_name FieldPlayer
 extends RigidBody2D
 
 const SPEED = 250
-const PASS_SPEED = 500.0
+const PASS_SPEED = 600
 const SHOOT_SPEED = 750
 const BALL_DRIBBLE_GAP = 25
+const STEAL_RANGE = 75
+const DEFAULT_STUN_SECONDS = 2
 
-var is_selected = false
 var has_possession = false
-var can_take_possession = true
+var is_on_pass_cooldown = false
 var is_moving_to_position = false
+var is_stunned = false
 var curr_direction
 var pass_target
 var player_name
@@ -32,6 +34,7 @@ enum Direction {
 @onready var context_map = $ContextMap as ContextMap
 @onready var ray_to_goal = $RayToGoal as RayCast2D
 @onready var ray_to_allies = []
+@onready var sprite = $AnimatedSprite2D as AnimatedSprite2D
 
 var field_manager: FieldManager
 
@@ -51,8 +54,11 @@ func all_ready():
 				"player_ref": player
 			}
 			ray_to_allies.append(ray_to_ally_mapping)
-	update_ray_collision_based_on_side(ray_to_goal)
-	context_map.update_ray_collision_based_on_side()
+
+	if ray_to_goal != null:
+		update_ray_collision_based_on_side(ray_to_goal)
+	if context_map != null:
+		context_map.update_ray_collision_based_on_side()
 
 func update_ray_collision_based_on_side(ray: RayCast2D):
 	if side == Side.PLAYER:
@@ -81,39 +87,53 @@ func _physics_process(_delta):
 	update_ray_to_ally_mappings()
 
 func pass_ball():
-	if pass_target != null:
+	if pass_target != null && !is_stunned:
 		var ball = game.ball
 		# Face toward pass_target
 		curr_direction = Direction.LEFT if global_position.x > pass_target.global_position.x else Direction.RIGHT
 		var x_diff = -BALL_DRIBBLE_GAP if curr_direction == Direction.LEFT else BALL_DRIBBLE_GAP
 		ball.global_position = Vector2(global_position.x + x_diff, global_position.y)
 
-		can_take_possession = false
+		is_on_pass_cooldown = true
 		var dir = (pass_target.global_position - ball.global_position).normalized()
 		var velocity_vector = dir * PASS_SPEED
 		ball.linear_velocity = velocity_vector
 		ball.curr_poss_status = Ball.POSS_STATUS.LOOSE
-		ball.metadata["prev_possessor"] = self
 		lose_poss_of_ball()
 
-func shoot_ball():
-	var ball = game.ball
-	# Face toward opponent goal
-	curr_direction = Direction.LEFT if side == Side.CPU else Direction.RIGHT
-	var x_diff = -BALL_DRIBBLE_GAP if curr_direction == Direction.LEFT else BALL_DRIBBLE_GAP
-	ball.global_position = Vector2(global_position.x + x_diff, global_position.y)
+		var timer = Timer.new()
+		timer.autostart = true
+		timer.one_shot = true
+		timer.wait_time = 0.1
+		var on_timeout = Callable(self, "pass_cooldown")
+		timer.connect("timeout", on_timeout)
+		add_child(timer)
 
-	# Shoot ball toward goal
-	var opp_goal = get_opposing_goal()
-	var dir = (opp_goal.global_position - ball.global_position).normalized()
-	var velocity_vector = dir * SHOOT_SPEED
-	ball.curr_poss_status = Ball.POSS_STATUS.SHOT_ON_CPU_GOAL if side == Side.PLAYER else Ball.POSS_STATUS.SHOT_ON_PLAYER_GOAL
-	ball.metadata["shot_force"] = shot_force
-	ball.linear_velocity = velocity_vector
-	lose_poss_of_ball()
+# Prevent player from taking possession of ball immediately after passing
+func pass_cooldown():
+	is_on_pass_cooldown = false
+
+func shoot_ball():
+	if !is_stunned:
+		var ball = game.ball
+		# Face toward opponent goal
+		curr_direction = Direction.LEFT if side == Side.CPU else Direction.RIGHT
+		var x_diff = -BALL_DRIBBLE_GAP if curr_direction == Direction.LEFT else BALL_DRIBBLE_GAP
+		ball.global_position = Vector2(global_position.x + x_diff, global_position.y)
+
+		# Shoot ball toward goal
+		var opp_goal = get_opposing_goal()
+		var dir = (opp_goal.global_position - ball.global_position).normalized()
+		var velocity_vector = dir * SHOOT_SPEED
+		ball.curr_poss_status = Ball.POSS_STATUS.SHOT_ON_CPU_GOAL if side == Side.PLAYER else Ball.POSS_STATUS.SHOT_ON_PLAYER_GOAL
+		ball.metadata["shot_force"] = shot_force
+		ball.linear_velocity = velocity_vector
+		lose_poss_of_ball()
 
 func handle_ball_collision():
-	take_poss_of_ball()
+	var ball = game.ball as Ball
+	if !is_on_pass_cooldown and ball.is_loose():
+		take_poss_of_ball()
 	
 func get_self_goal():
 	return game.cpu_goal if side == Side.CPU else game.player_goal
@@ -125,7 +145,7 @@ func get_opposing_field_players():
 	return game.cpu_manager.field_players if side == Side.PLAYER else game.player_manager.field_players
 
 func on_completed_pass():
-	can_take_possession = true
+	is_on_pass_cooldown = true
 	pass_target = null
 
 func take_poss_of_ball():
@@ -147,7 +167,7 @@ func side_has_possession():
 	return false
 
 func move_to_position(dest_position: Vector2, is_at_pos_threshold):
-	if global_position.distance_to(dest_position) <= is_at_pos_threshold:
+	if global_position.distance_to(dest_position) <= is_at_pos_threshold or is_stunned:
 		is_moving_to_position = false
 		linear_velocity = Vector2.ZERO
 	else:
@@ -183,5 +203,25 @@ func get_closest_enemy_field_player():
 			closest_dist = dist_to_player
 	return closest_field_player
 
+func stun():
+	is_stunned = true
+	var timer = Timer.new()
+	timer.autostart = true
+	timer.wait_time = DEFAULT_STUN_SECONDS
+	timer.one_shot = true
+	var on_timeout = Callable(self, "stun_wear_off")
+	timer.connect("timeout", on_timeout)
+	add_child(timer)
+	modulate = Color(1.0, 1.0, 0, 0.8)
+
+func stun_wear_off():
+	modulate = Color(1.0, 1.0, 1.0, 1)
+	is_stunned = false
+
 func steal_ball():
-	take_poss_of_ball()
+	if !is_stunned:
+		var prev_ball_handler = game.get_ball_handler()
+		if prev_ball_handler != null:
+			prev_ball_handler.stun()
+		game.camera.apply_shake()
+		take_poss_of_ball()

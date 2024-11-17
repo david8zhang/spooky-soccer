@@ -1,9 +1,19 @@
-[gd_scene load_steps=6 format=3 uid="uid://cb8pxunyr2q10"]
+[gd_scene load_steps=8 format=3 uid="uid://cb8pxunyr2q10"]
 
 [ext_resource type="Script" path="res://scripts/PlayerFieldPlayer.gd" id="1_ejapt"]
 [ext_resource type="PackedScene" uid="uid://cihkyuapvdyc" path="res://prefabs/PlayerFieldPlayerAI.tscn" id="2_ede0m"]
 [ext_resource type="PackedScene" uid="uid://bvwulw0o1p2y6" path="res://prefabs/ContextMap.tscn" id="2_xnjla"]
 [ext_resource type="SpriteFrames" uid="uid://vthbpqfddnrx" path="res://animations/fp-placeholder.tres" id="4_e6h0e"]
+[ext_resource type="Shader" path="res://shaders/Outline.gdshader" id="4_owqh8"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kqiun"]
+resource_local_to_scene = true
+shader = ExtResource("4_owqh8")
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/width = 1.0
+shader_parameter/pattern = 0
+shader_parameter/inside = false
+shader_parameter/add_margins = true
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_at8gu"]
 size = Vector2(32, 56)
@@ -20,6 +30,7 @@ actor = NodePath("..")
 [node name="ContextMap" parent="." instance=ExtResource("2_xnjla")]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_kqiun")
 position = Vector2(0, -4.76837e-07)
 scale = Vector2(4, 4)
 sprite_frames = ExtResource("4_e6h0e")

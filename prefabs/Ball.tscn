@@ -1,31 +1,14 @@
-[gd_scene load_steps=8 format=3 uid="uid://dbagi233oshw7"]
+[gd_scene load_steps=6 format=3 uid="uid://dbagi233oshw7"]
 
-[ext_resource type="Texture2D" uid="uid://dqa181oq1x6gn" path="res://icon.svg" id="1_d7obc"]
 [ext_resource type="Script" path="res://scripts/Ball.gd" id="1_i56ne"]
+[ext_resource type="Texture2D" uid="uid://3bspjasllc2s" path="res://sprites/ball.png" id="2_br668"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lrefx"]
 bounce = 0.4
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_1idcn"]
-atlas = ExtResource("1_d7obc")
-region = Rect2(0, 0, 128, 128)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_tjyjf"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_1idcn")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_ome08"]
-radius = 14.0357
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kr422"]
-radius = 7.0
 
 [node name="Ball" type="RigidBody2D"]
 collision_layer = 4
@@ -35,9 +18,8 @@ max_contacts_reported = 1
 lock_rotation = true
 script = ExtResource("1_i56ne")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-scale = Vector2(0.2, 0.2)
-sprite_frames = SubResource("SpriteFrames_tjyjf")
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_br668")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_ome08")

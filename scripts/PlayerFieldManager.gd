@@ -22,15 +22,14 @@ var selected_player
 func _ready():
 	init_players(player_configs, FieldPlayer.Side.PLAYER)
 	init_goalkeeper(goalkeeper_config, FieldPlayer.Side.PLAYER)
-	field_players[0].is_selected = true
 	game.all_ready.connect(all_ready)
 
 func select_new_player(field_player: FieldPlayer):
 	if selected_player != null and selected_player != field_player:
-		selected_player.is_selected = false
 		selected_player.lose_poss_of_ball()
-	field_player.is_selected = true
+		selected_player.dehighlight()
 	selected_player = field_player
+	selected_player.highlight()
 
 func all_ready():
 	super.assign_defenders()
@@ -46,3 +45,8 @@ func get_default_position(player_name):
 		if config.name == player_name:
 			return config.position
 	return null
+
+func reset_after_score(last_scored_side):
+	super.reset_after_score(last_scored_side)
+	if last_scored_side != FieldPlayer.Side.PLAYER:
+		field_players[0].take_poss_of_ball()
