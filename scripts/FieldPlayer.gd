@@ -3,9 +3,10 @@ extends RigidBody2D
 
 const SPEED = 250
 const PASS_SPEED = 600
+const STEAL_LUNGE_SPEED = 750
 const SHOOT_SPEED = 750
-const BALL_DRIBBLE_GAP = 25
-const STEAL_RANGE = 75
+const BALL_DRIBBLE_GAP = 40
+const STEAL_RANGE = 100
 const DEFAULT_STUN_SECONDS = 2
 
 var has_possession = false
@@ -16,6 +17,10 @@ var curr_direction
 var pass_target
 var player_name
 var side
+
+# Going for a steal (slide tackle)
+var steal_direction = Vector2.ZERO
+var is_going_for_steal = false
 
 # Stamina damage to goalkeeper from shot
 var shot_force = 30
@@ -35,11 +40,13 @@ enum Direction {
 @onready var ray_to_goal = $RayToGoal as RayCast2D
 @onready var ray_to_allies = []
 @onready var sprite = $AnimatedSprite2D as AnimatedSprite2D
+@onready var steal_hitbox = $StealHitBox as Area2D
 
 var field_manager: FieldManager
 
 func _ready():
 	game.all_ready.connect(all_ready)
+	steal_hitbox.connect("body_entered", on_steal_hitbox_collided)
 
 func all_ready():
 	# Instantiate raycast to ally players (for determining passing lane states)
@@ -79,7 +86,7 @@ func _physics_process(_delta):
 		var ball = game.ball as RigidBody2D
 		ball.show()
 		var x_diff = -BALL_DRIBBLE_GAP if curr_direction == Direction.LEFT else BALL_DRIBBLE_GAP
-		ball.global_position = Vector2(global_position.x + x_diff, global_position.y)
+		ball.global_position = Vector2(global_position.x + x_diff, global_position.y + 20)
 
 	# For checking if the player currently has an open shot on offense
 	if ray_to_goal != null:
@@ -92,7 +99,7 @@ func pass_ball():
 		# Face toward pass_target
 		curr_direction = Direction.LEFT if global_position.x > pass_target.global_position.x else Direction.RIGHT
 		var x_diff = -BALL_DRIBBLE_GAP if curr_direction == Direction.LEFT else BALL_DRIBBLE_GAP
-		ball.global_position = Vector2(global_position.x + x_diff, global_position.y)
+		ball.global_position = Vector2(global_position.x + x_diff, global_position.y + 20)
 
 		is_on_pass_cooldown = true
 		var dir = (pass_target.global_position - ball.global_position).normalized()
@@ -167,6 +174,8 @@ func side_has_possession():
 	return false
 
 func move_to_position(dest_position: Vector2, is_at_pos_threshold):
+	if is_going_for_steal:
+		return
 	if global_position.distance_to(dest_position) <= is_at_pos_threshold or is_stunned:
 		is_moving_to_position = false
 		linear_velocity = Vector2.ZERO
@@ -218,10 +227,42 @@ func stun_wear_off():
 	modulate = Color(1.0, 1.0, 1.0, 1)
 	is_stunned = false
 
+func on_steal_hitbox_collided(body: Node2D):
+	if body is FieldPlayer:
+		var field_player = body as FieldPlayer
+		if field_player.side != side and is_going_for_steal:
+			var prev_ball_handler = game.get_ball_handler()
+			if prev_ball_handler != null:
+				prev_ball_handler.stun()
+			game.camera.apply_shake()
+			take_poss_of_ball()
+
 func steal_ball():
-	if !is_stunned:
-		var prev_ball_handler = game.get_ball_handler()
-		if prev_ball_handler != null:
-			prev_ball_handler.stun()
-		game.camera.apply_shake()
-		take_poss_of_ball()
+	var ball_handler = game.get_ball_handler()
+	print(player_name + " going for steal on " + ball_handler.player_name)
+	if ball_handler != null:
+		is_going_for_steal = true
+		steal_direction = (ball_handler.global_position - global_position).normalized()
+		linear_damp = 5
+		apply_impulse(steal_direction * 1000)
+
+		var timer = Timer.new()
+		timer.autostart = true
+		timer.one_shot = true
+		timer.wait_time = 0.5
+		var on_timeout = Callable(self, "steal_finished")
+		timer.connect("timeout", on_timeout)
+		add_child(timer)
+
+func steal_finished():
+	linear_damp = 0
+	is_going_for_steal = false
+
+
+func can_steal():
+	var ball_handler = game.get_ball_handler()
+	if ball_handler != null:
+		var dist_to_ball_handler = global_position.distance_to(ball_handler.global_position)
+		return dist_to_ball_handler <= FieldPlayer.STEAL_RANGE and !is_going_for_steal and !is_stunned
+	else:
+		return false

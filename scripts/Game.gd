@@ -37,10 +37,10 @@ func reset_after_score(last_scored_side: FieldPlayer.Side):
 	player_manager.reset_after_score(last_scored_side)
 
 func get_ball_handler():
-	for p in player_manager.field_players:
-		if p.has_possession:
-			return p
-	for p in cpu_manager.field_players:
-		if p.has_possession:
-			return p
+	for pfp in player_manager.field_players:
+		if pfp.has_possession:
+			return pfp
+	for cfp in cpu_manager.field_players:
+		if cfp.has_possession:
+			return cfp
 	return null

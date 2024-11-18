@@ -25,15 +25,15 @@
 [ext_resource type="Script" path="res://scripts/behavior_tree/AssignDefensiveBehavior.gd" id="18_83gaw"]
 [ext_resource type="Script" path="res://scripts/behavior_tree/MoveToOffensiveSupportPosition.gd" id="18_s3nsk"]
 [ext_resource type="Script" path="res://scripts/behavior_tree/ShouldGoForSteal.gd" id="19_yqsl7"]
-[ext_resource type="Script" path="res://scripts/behavior_tree/IsInStealRange.gd" id="20_nf5h4"]
 [ext_resource type="Script" path="res://scripts/behavior_tree/StealBall.gd" id="21_op08r"]
 [ext_resource type="Script" path="res://scripts/behavior_tree/ChaseBallHandler.gd" id="22_twyp3"]
 [ext_resource type="Script" path="res://scripts/behavior_tree/MoveToDefensivePosition.gd" id="23_yudub"]
+[ext_resource type="Script" path="res://scripts/behavior_tree/CanStealBall.gd" id="26_m03qf"]
 
 [node name="CPUFieldPlayerAI" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_xsn7y")
 blackboard = NodePath("@Node@17991")
-actor = NodePath("")
+actor = NodePath("..")
 
 [node name="RootSequence" type="Node" parent="."]
 script = ExtResource("2_erdwv")
@@ -176,8 +176,8 @@ script = ExtResource("2_8as02")
 [node name="StealSequence" type="Node" parent="RootSequence/JustScoredSelector/LooseBallSelector/OffenseOrDefense/DefenseSequence/DefensiveBehaviorSelector/GoForStealSequence/StealOrChaseBallHandler"]
 script = ExtResource("2_erdwv")
 
-[node name="IsInStealRange" type="Node" parent="RootSequence/JustScoredSelector/LooseBallSelector/OffenseOrDefense/DefenseSequence/DefensiveBehaviorSelector/GoForStealSequence/StealOrChaseBallHandler/StealSequence"]
-script = ExtResource("20_nf5h4")
+[node name="CanStealBall" type="Node" parent="RootSequence/JustScoredSelector/LooseBallSelector/OffenseOrDefense/DefenseSequence/DefensiveBehaviorSelector/GoForStealSequence/StealOrChaseBallHandler/StealSequence"]
+script = ExtResource("26_m03qf")
 
 [node name="StealBall" type="Node" parent="RootSequence/JustScoredSelector/LooseBallSelector/OffenseOrDefense/DefenseSequence/DefensiveBehaviorSelector/GoForStealSequence/StealOrChaseBallHandler/StealSequence"]
 script = ExtResource("21_op08r")

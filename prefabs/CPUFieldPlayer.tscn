@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://b70d37wyfnq4h"]
+[gd_scene load_steps=7 format=3 uid="uid://b70d37wyfnq4h"]
 
 [ext_resource type="Script" path="res://scripts/CPUFieldPlayer.gd" id="1_k72m6"]
 [ext_resource type="PackedScene" uid="uid://hs88tdqlwcn7" path="res://prefabs/CPUFieldPlayerAI.tscn" id="2_4laok"]
@@ -8,6 +8,9 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8ytxx"]
 size = Vector2(32, 56)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wn5xd"]
+size = Vector2(74, 31)
+
 [node name="CPUFieldPlayer" type="RigidBody2D"]
 collision_layer = 2
 collision_mask = 32
@@ -16,9 +19,8 @@ script = ExtResource("1_k72m6")
 
 [node name="ContextMap" parent="." instance=ExtResource("2_vai8v")]
 
-[node name="CPUFieldPlayerAI" parent="." node_paths=PackedStringArray("blackboard", "actor") instance=ExtResource("2_4laok")]
+[node name="CPUFieldPlayerAI" parent="." node_paths=PackedStringArray("blackboard") instance=ExtResource("2_4laok")]
 blackboard = NodePath("@Node@19343")
-actor = NodePath("..")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -4.76837e-07)
@@ -34,3 +36,11 @@ shape = SubResource("RectangleShape2D_8ytxx")
 modulate = Color(0, 1, 0, 1)
 position = Vector2(0, -2)
 target_position = Vector2(2.08165e-12, 100)
+
+[node name="StealHitBox" type="Area2D" parent="."]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StealHitBox"]
+position = Vector2(10, 15.5)
+shape = SubResource("RectangleShape2D_wn5xd")
+debug_color = Color(0.996078, 0, 0, 0.419608)

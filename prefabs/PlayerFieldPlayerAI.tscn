@@ -15,9 +15,9 @@
 [ext_resource type="Script" path="res://scripts/behavior_tree/MoveToOffensiveSupportPosition.gd" id="10_rgbyh"]
 [ext_resource type="Script" path="res://scripts/behavior_tree/AssignDefensiveBehavior.gd" id="11_0buab"]
 [ext_resource type="Script" path="res://scripts/behavior_tree/ShouldGoForSteal.gd" id="12_tfb41"]
-[ext_resource type="Script" path="res://scripts/behavior_tree/IsInStealRange.gd" id="13_31vd0"]
 [ext_resource type="Script" path="res://scripts/behavior_tree/StealBall.gd" id="14_qrkn8"]
 [ext_resource type="Script" path="res://scripts/behavior_tree/ChaseBallHandler.gd" id="15_iigq1"]
+[ext_resource type="Script" path="res://scripts/behavior_tree/CanStealBall.gd" id="16_4inly"]
 [ext_resource type="Script" path="res://scripts/behavior_tree/MoveToDefensivePosition.gd" id="16_d1hbe"]
 
 [node name="PlayerFieldPlayerAI" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
@@ -103,8 +103,8 @@ script = ExtResource("4_s3tmg")
 [node name="StealSequence" type="Node" parent="RootSequence/JustScoredSelector/LooseBallSelector/OffenseOrDefense/DefenseSequence/DefensiveBehaviorSelector/GoForStealSequence/StealOrChaseBallHandler"]
 script = ExtResource("2_ajho3")
 
-[node name="IsInStealRange" type="Node" parent="RootSequence/JustScoredSelector/LooseBallSelector/OffenseOrDefense/DefenseSequence/DefensiveBehaviorSelector/GoForStealSequence/StealOrChaseBallHandler/StealSequence"]
-script = ExtResource("13_31vd0")
+[node name="CanStealBall" type="Node" parent="RootSequence/JustScoredSelector/LooseBallSelector/OffenseOrDefense/DefenseSequence/DefensiveBehaviorSelector/GoForStealSequence/StealOrChaseBallHandler/StealSequence"]
+script = ExtResource("16_4inly")
 
 [node name="StealBall" type="Node" parent="RootSequence/JustScoredSelector/LooseBallSelector/OffenseOrDefense/DefenseSequence/DefensiveBehaviorSelector/GoForStealSequence/StealOrChaseBallHandler/StealSequence"]
 script = ExtResource("14_qrkn8")

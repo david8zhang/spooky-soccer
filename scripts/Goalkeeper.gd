@@ -23,6 +23,7 @@ func handle_ball_collision():
     save_meter.value = max(0, save_meter.value - stamina_dmg)
     if save_meter.value > 0:
       # random ricochet
+      game.camera.apply_shake()
       var x_pos = 300 if side == Side.CPU else -300
       var y_pos = randi_range(-300, 300)
       var dir = Vector2(x_pos, y_pos) - global_position

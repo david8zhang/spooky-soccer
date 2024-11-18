@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cb8pxunyr2q10"]
+[gd_scene load_steps=9 format=3 uid="uid://cb8pxunyr2q10"]
 
 [ext_resource type="Script" path="res://scripts/PlayerFieldPlayer.gd" id="1_ejapt"]
 [ext_resource type="PackedScene" uid="uid://cihkyuapvdyc" path="res://prefabs/PlayerFieldPlayerAI.tscn" id="2_ede0m"]
@@ -18,13 +18,16 @@ shader_parameter/add_margins = true
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_at8gu"]
 size = Vector2(32, 56)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3a5od"]
+size = Vector2(74, 31)
+
 [node name="PlayerFieldPlayer" type="RigidBody2D"]
 collision_mask = 32
 lock_rotation = true
 script = ExtResource("1_ejapt")
 
 [node name="PlayerFieldPlayerAI" parent="." node_paths=PackedStringArray("blackboard", "actor") instance=ExtResource("2_ede0m")]
-blackboard = NodePath("@Node@18073")
+blackboard = NodePath("@Node@23874")
 actor = NodePath("..")
 
 [node name="ContextMap" parent="." instance=ExtResource("2_xnjla")]
@@ -44,3 +47,11 @@ shape = SubResource("RectangleShape2D_at8gu")
 modulate = Color(0, 1, 0, 1)
 target_position = Vector2(2.08165e-12, 100)
 collision_mask = 2
+
+[node name="StealHitBox" type="Area2D" parent="."]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StealHitBox"]
+position = Vector2(10, 15.5)
+shape = SubResource("RectangleShape2D_3a5od")
+debug_color = Color(0.996078, 0, 0, 0.419608)

@@ -5,18 +5,17 @@ func _physics_process(_delta):
 	var player_field_manager = field_manager as PlayerFieldManager
 	if player_field_manager.selected_player == self:
 		highlight()
-		linear_velocity = Vector2.ZERO
+		var new_velocity = Vector2.ZERO
 		if Input.is_action_pressed("move_right"):
-			linear_velocity.x += 1
+			new_velocity.x += 1
 		if Input.is_action_pressed("move_left"):
-			linear_velocity.x -= 1
+			new_velocity.x -= 1
 		if Input.is_action_pressed("move_down"):
-			linear_velocity.y += 1
+			new_velocity.y += 1
 		if Input.is_action_pressed("move_up"):
-			linear_velocity.y -= 1
-
-		if linear_velocity.length() > 0:
-			linear_velocity = linear_velocity.normalized() * SPEED
+			new_velocity.y -= 1
+		if !is_going_for_steal:
+			linear_velocity = new_velocity.normalized() * SPEED
 
 		if linear_velocity.x < 0:
 			curr_direction = Direction.LEFT
@@ -36,14 +35,6 @@ func _physics_process(_delta):
 	else:
 		dehighlight()
 	super._physics_process(_delta)
-
-func can_steal():
-	var ball_handler = game.get_ball_handler()
-	if ball_handler != null:
-		var dist_to_ball_handler = global_position.distance_to(ball_handler.global_position)
-		return dist_to_ball_handler <= FieldPlayer.STEAL_RANGE
-	else:
-		return false
 
 func update_pass_target(curr_velocity: Vector2):
 	var src_position = global_position + curr_velocity
