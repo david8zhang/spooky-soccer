@@ -101,9 +101,16 @@ func pass_ball():
 		var x_diff = -BALL_DRIBBLE_GAP if curr_direction == Direction.LEFT else BALL_DRIBBLE_GAP
 		ball.global_position = Vector2(global_position.x + x_diff, global_position.y + 20)
 
+		var pass_time = 0.5
+		var dist_to_target = pass_target.global_position.distance_to(global_position)
+		var pass_speed = dist_to_target / pass_time
+
+		# Pass ball to where the target is going to be instead of where the target is
+		var dead_reckoning_pos = pass_target.global_position + pass_target.linear_velocity * 0.5
+
 		is_on_pass_cooldown = true
-		var dir = (pass_target.global_position - ball.global_position).normalized()
-		var velocity_vector = dir * PASS_SPEED
+		var dir = (dead_reckoning_pos - ball.global_position).normalized()
+		var velocity_vector = dir * pass_speed
 		ball.linear_velocity = velocity_vector
 		ball.curr_poss_status = Ball.POSS_STATUS.LOOSE
 		lose_poss_of_ball()
