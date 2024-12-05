@@ -131,9 +131,10 @@ func shoot_ball():
 	if !is_stunned:
 		var ball = game.ball
 		# Face toward opponent goal
-		curr_direction = Direction.LEFT if side == Side.CPU else Direction.RIGHT
-		var x_diff = -BALL_DRIBBLE_GAP if curr_direction == Direction.LEFT else BALL_DRIBBLE_GAP
-		ball.global_position = Vector2(global_position.x + x_diff, global_position.y)
+		# curr_direction = Direction.LEFT if side == Side.CPU else Direction.RIGHT
+		# var x_diff = -BALL_DRIBBLE_GAP if curr_direction == Direction.LEFT else BALL_DRIBBLE_GAP
+		# ball.global_position = Vector2(global_position.x + x_diff, global_position.y)
+		ball.global_position = global_position
 
 		# Shoot ball toward goal
 		var opp_goal = get_opposing_goal()
@@ -143,6 +144,15 @@ func shoot_ball():
 		ball.metadata["shot_force"] = shot_force
 		ball.linear_velocity = velocity_vector
 		lose_poss_of_ball()
+
+		is_on_pass_cooldown = true
+		var timer = Timer.new()
+		timer.autostart = true
+		timer.one_shot = true
+		timer.wait_time = 0.1
+		var on_timeout = Callable(self, "pass_cooldown")
+		timer.connect("timeout", on_timeout)
+		add_child(timer)
 
 func handle_ball_collision():
 	var ball = game.ball as Ball

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://rgbyovsk6afe"]
+[gd_scene load_steps=8 format=3 uid="uid://rgbyovsk6afe"]
 
 [ext_resource type="Script" path="res://scripts/Goal.gd" id="1_6ybeg"]
 [ext_resource type="Texture2D" uid="uid://dqa181oq1x6gn" path="res://icon.svg" id="1_d6h3q"]
@@ -19,10 +19,13 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_trcr3"]
-size = Vector2(63, 190)
+size = Vector2(53, 162)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_l885n"]
 radius = 350.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bxs7v"]
+size = Vector2(65, 12)
 
 [node name="Goal" type="StaticBody2D"]
 collision_layer = 16
@@ -35,10 +38,24 @@ scale = Vector2(0.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_1ontc")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-0.5, -1)
+position = Vector2(-5.5, 0)
 shape = SubResource("RectangleShape2D_trcr3")
 
 [node name="InRangeDetector" type="CollisionShape2D" parent="."]
 visible = false
 shape = SubResource("CircleShape2D_l885n")
 disabled = true
+
+[node name="Wall" type="StaticBody2D" parent="."]
+collision_layer = 32
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall"]
+position = Vector2(1.5, -90)
+shape = SubResource("RectangleShape2D_bxs7v")
+
+[node name="Wall2" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall2"]
+position = Vector2(1, 90)
+shape = SubResource("RectangleShape2D_bxs7v")
