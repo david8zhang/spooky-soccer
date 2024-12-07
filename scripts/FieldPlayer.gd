@@ -194,12 +194,18 @@ func move_to_position(dest_position: Vector2, is_at_pos_threshold):
 	if is_going_for_steal:
 		return
 	if global_position.distance_to(dest_position) <= is_at_pos_threshold or is_stunned:
+		sprite.play("idle")
 		is_moving_to_position = false
 		linear_velocity = Vector2.ZERO
 	else:
 		is_moving_to_position = true
 		context_map.target_position = dest_position
 		var dir = context_map.best_dir
+		if dir.x <= 0.001:
+			sprite.flip_h = true
+		else:
+			sprite.flip_h = false
+		sprite.play("run")
 		var desired_velocity = dir * FieldPlayer.SPEED
 		var steering_force = desired_velocity - linear_velocity
 		linear_velocity = linear_velocity + (steering_force * 2 * 0.0167)

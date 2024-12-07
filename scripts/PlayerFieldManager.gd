@@ -27,9 +27,7 @@ func _ready():
 func select_new_player(field_player: FieldPlayer):
 	if selected_player != null and selected_player != field_player:
 		selected_player.lose_poss_of_ball()
-		selected_player.dehighlight()
 	selected_player = field_player
-	selected_player.highlight()
 
 func all_ready():
 	super.assign_defenders()

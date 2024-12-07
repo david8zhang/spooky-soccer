@@ -4,7 +4,6 @@ extends FieldPlayer
 func _physics_process(_delta):
 	var player_field_manager = field_manager as PlayerFieldManager
 	if player_field_manager.selected_player == self:
-		highlight()
 		var new_velocity = Vector2.ZERO
 		if Input.is_action_pressed("move_right"):
 			new_velocity.x += 1
@@ -17,9 +16,16 @@ func _physics_process(_delta):
 		if !is_going_for_steal:
 			linear_velocity = new_velocity.normalized() * SPEED
 
+		if new_velocity.length() != 0:
+			sprite.play("run")
+		else:
+			sprite.play("idle")
+
 		if linear_velocity.x < 0:
+			sprite.flip_h = true
 			curr_direction = Direction.LEFT
 		elif linear_velocity.x > 0:
+			sprite.flip_h = false
 			curr_direction = Direction.RIGHT
 
 		if has_possession:
@@ -32,8 +38,6 @@ func _physics_process(_delta):
 			if Input.is_action_just_pressed("steal"):
 				if can_steal():
 					steal_ball()
-	else:
-		dehighlight()
 	super._physics_process(_delta)
 
 func update_pass_target(curr_velocity: Vector2):
@@ -49,15 +53,6 @@ func update_pass_target(curr_velocity: Vector2):
 
 	# Update pass target
 	pass_target = closest_player
-
-func dehighlight():
-	var _material = sprite.material as ShaderMaterial
-	_material.set_shader_parameter('width', 0)
-
-func highlight():
-	var _material = sprite.material as ShaderMaterial
-	_material.set_shader_parameter('color', Color(0, 1.0, 0, 1))
-	_material.set_shader_parameter('width', 1)
 
 func take_poss_of_ball():
 	super.take_poss_of_ball()

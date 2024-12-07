@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/CPUFieldPlayer.gd" id="1_k72m6"]
 [ext_resource type="PackedScene" uid="uid://hs88tdqlwcn7" path="res://prefabs/CPUFieldPlayerAI.tscn" id="2_4laok"]
 [ext_resource type="PackedScene" uid="uid://bvwulw0o1p2y6" path="res://prefabs/ContextMap.tscn" id="2_vai8v"]
-[ext_resource type="SpriteFrames" uid="uid://vthbpqfddnrx" path="res://animations/fp-placeholder.tres" id="4_q2mjv"]
+[ext_resource type="SpriteFrames" uid="uid://cpu1fshi8u48h" path="res://animations/cpu-field-player.tres" id="4_1eytk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8ytxx"]
 size = Vector2(32, 56)
@@ -19,14 +19,16 @@ script = ExtResource("1_k72m6")
 
 [node name="ContextMap" parent="." instance=ExtResource("2_vai8v")]
 
-[node name="CPUFieldPlayerAI" parent="." node_paths=PackedStringArray("blackboard") instance=ExtResource("2_4laok")]
-blackboard = NodePath("@Node@19343")
+[node name="CPUFieldPlayerAI" parent="." node_paths=PackedStringArray("blackboard", "actor") instance=ExtResource("2_4laok")]
+blackboard = NodePath("@Node@59592")
+actor = NodePath("..")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -4.76837e-07)
 scale = Vector2(4, 4)
-sprite_frames = ExtResource("4_q2mjv")
-animation = &"cpu-placeholder"
+sprite_frames = ExtResource("4_1eytk")
+animation = &"idle"
+autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 4)
