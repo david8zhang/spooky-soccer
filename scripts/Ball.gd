@@ -12,6 +12,7 @@ enum POSS_STATUS {
 }
 
 @onready var collision_detector = $CollisionDetector/CollisionShape2D
+@onready var status_label = $Label
 
 func disable_collision_detector():
 	collision_detector.set_deferred("disabled", true)
@@ -23,6 +24,15 @@ var curr_poss_status
 
 # Metadata stored on the ball
 var metadata = {}
+
+func get_enum_name(enum_dict: Dictionary, value: int) -> String:
+	for name_key in enum_dict.keys():
+		if enum_dict[name_key] == value:
+				return name_key
+	return "Unknown"
+
+func _process(_delta):
+	status_label.text = get_enum_name(POSS_STATUS, curr_poss_status)
 
 func _on_field_player_detector_body_entered(body):
 	if body is FieldPlayer:

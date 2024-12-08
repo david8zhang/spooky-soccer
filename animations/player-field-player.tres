@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=21 format=3 uid="uid://dx07xptdohsib"]
+[gd_resource type="SpriteFrames" load_steps=27 format=3 uid="uid://dx07xptdohsib"]
 
 [ext_resource type="Texture2D" uid="uid://csgwxbjr6fwxv" path="res://sprites/base-player/idle-player.png" id="1_qj34x"]
 [ext_resource type="Texture2D" uid="uid://d24wpare17nnn" path="res://sprites/base-player/kick-player.png" id="2_tjrx7"]
@@ -72,6 +72,30 @@ region = Rect2(96, 0, 16, 18)
 atlas = ExtResource("3_ruht6")
 region = Rect2(112, 0, 16, 18)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_8o552"]
+atlas = ExtResource("2_tjrx7")
+region = Rect2(0, 0, 16, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s2f67"]
+atlas = ExtResource("2_tjrx7")
+region = Rect2(16, 0, 16, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rykrf"]
+atlas = ExtResource("2_tjrx7")
+region = Rect2(32, 0, 16, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vxu7a"]
+atlas = ExtResource("2_tjrx7")
+region = Rect2(48, 0, 16, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xkaos"]
+atlas = ExtResource("2_tjrx7")
+region = Rect2(64, 0, 16, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jlceq"]
+atlas = ExtResource("2_tjrx7")
+region = Rect2(80, 0, 16, 18)
+
 [resource]
 animations = [{
 "frames": [{
@@ -107,9 +131,9 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_plqfw")
 }],
-"loop": true,
+"loop": false,
 "name": &"kick",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -138,5 +162,28 @@ animations = [{
 }],
 "loop": true,
 "name": &"run",
-"speed": 5.0
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8o552")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s2f67")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rykrf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vxu7a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xkaos")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jlceq")
+}],
+"loop": false,
+"name": &"shoot",
+"speed": 10.0
 }]

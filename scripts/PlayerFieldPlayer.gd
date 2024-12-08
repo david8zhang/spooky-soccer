@@ -16,10 +16,11 @@ func _physics_process(_delta):
 		if !is_going_for_steal:
 			linear_velocity = new_velocity.normalized() * SPEED
 
-		if new_velocity.length() != 0:
-			sprite.play("run")
-		else:
-			sprite.play("idle")
+		if !is_playing_pass_or_shoot_anim:
+			if new_velocity.length() != 0:
+				sprite.play("run")
+			else:
+				sprite.play("idle")
 
 		if linear_velocity.x < 0:
 			sprite.flip_h = true

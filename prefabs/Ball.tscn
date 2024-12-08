@@ -32,4 +32,11 @@ collision_mask = 59
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionDetector"]
 shape = SubResource("CircleShape2D_kr422")
 
+[node name="Label" type="Label" parent="."]
+offset_left = -26.0
+offset_top = -34.0
+offset_right = 31.0
+offset_bottom = -8.0
+text = "status: "
+
 [connection signal="body_entered" from="CollisionDetector" to="." method="_on_field_player_detector_body_entered"]

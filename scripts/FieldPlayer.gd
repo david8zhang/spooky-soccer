@@ -8,9 +8,12 @@ const SHOOT_SPEED = 750
 const BALL_DRIBBLE_GAP = 40
 const STEAL_RANGE = 100
 const DEFAULT_STUN_SECONDS = 2
+const STEAL_PCT_CHANCE = 30
 
 var has_possession = false
 var is_on_pass_cooldown = false
+var is_playing_pass_or_shoot_anim = false
+
 var is_moving_to_position = false
 var is_stunned = false
 var curr_direction
@@ -41,6 +44,7 @@ enum Direction {
 @onready var ray_to_allies = []
 @onready var sprite = $AnimatedSprite2D as AnimatedSprite2D
 @onready var steal_hitbox = $StealHitBox as Area2D
+@onready var label = $Label as Label
 
 var field_manager: FieldManager
 
@@ -93,32 +97,51 @@ func _physics_process(_delta):
 		ray_to_goal.target_position = ray_to_goal.to_local(get_opposing_goal().global_position)
 	update_ray_to_ally_mappings()
 
+	label.text = "pass cooldown: " + str(is_on_pass_cooldown)
+
+func on_pass_animation():
+	if sprite.animation == "kick":
+		if sprite.frame == 3:
+			var ball = game.ball
+			# Face toward pass_target
+			curr_direction = Direction.LEFT if global_position.x > pass_target.global_position.x else Direction.RIGHT
+			var x_diff = -BALL_DRIBBLE_GAP if curr_direction == Direction.LEFT else BALL_DRIBBLE_GAP
+			ball.global_position = Vector2(global_position.x + x_diff, global_position.y + 20)
+
+			var pass_time = 0.5
+			var dist_to_target = pass_target.global_position.distance_to(global_position)
+			var pass_speed = dist_to_target / pass_time
+
+			# Pass ball to where the target is going to be instead of where the target is
+			var dead_reckoning_pos = pass_target.global_position + pass_target.linear_velocity * 0.5
+
+			var dir = (dead_reckoning_pos - ball.global_position).normalized()
+			var velocity_vector = dir * pass_speed
+			ball.linear_velocity = velocity_vector
+			ball.curr_poss_status = Ball.POSS_STATUS.LOOSE
+			lose_poss_of_ball()
+		if sprite.frame == 5:
+			var timer = Timer.new()
+			timer.autostart = true
+			timer.one_shot = true
+			timer.wait_time = 0.1
+			var on_timeout = Callable(self, "pass_or_shoot_anim_complete")
+			timer.connect("timeout", on_timeout)
+			add_child(timer)
+
+
 func pass_ball():
 	if pass_target != null && !is_stunned:
-		var ball = game.ball
-		# Face toward pass_target
-		curr_direction = Direction.LEFT if global_position.x > pass_target.global_position.x else Direction.RIGHT
-		var x_diff = -BALL_DRIBBLE_GAP if curr_direction == Direction.LEFT else BALL_DRIBBLE_GAP
-		ball.global_position = Vector2(global_position.x + x_diff, global_position.y + 20)
-
-		var pass_time = 0.5
-		var dist_to_target = pass_target.global_position.distance_to(global_position)
-		var pass_speed = dist_to_target / pass_time
-
-		# Pass ball to where the target is going to be instead of where the target is
-		var dead_reckoning_pos = pass_target.global_position + pass_target.linear_velocity * 0.5
-
+		is_playing_pass_or_shoot_anim = true
 		is_on_pass_cooldown = true
-		var dir = (dead_reckoning_pos - ball.global_position).normalized()
-		var velocity_vector = dir * pass_speed
-		ball.linear_velocity = velocity_vector
-		ball.curr_poss_status = Ball.POSS_STATUS.LOOSE
-		lose_poss_of_ball()
+		sprite.play("kick")
+		var on_kick = Callable(self, "on_pass_animation")
+		sprite.frame_changed.connect(on_kick)
 
 		var timer = Timer.new()
 		timer.autostart = true
 		timer.one_shot = true
-		timer.wait_time = 0.1
+		timer.wait_time = 0.5
 		var on_timeout = Callable(self, "pass_cooldown")
 		timer.connect("timeout", on_timeout)
 		add_child(timer)
@@ -127,29 +150,44 @@ func pass_ball():
 func pass_cooldown():
 	is_on_pass_cooldown = false
 
+func pass_or_shoot_anim_complete():
+	is_playing_pass_or_shoot_anim = false
+
+func on_shoot_animation():
+	if sprite.animation == "shoot":
+		if sprite.frame == 3:
+			var ball = game.ball
+			ball.global_position = global_position
+
+			# Shoot ball toward goal
+			var opp_goal = get_opposing_goal()
+			var dir = (opp_goal.global_position - ball.global_position).normalized()
+			var velocity_vector = dir * SHOOT_SPEED
+			ball.curr_poss_status = Ball.POSS_STATUS.SHOT_ON_CPU_GOAL if side == Side.PLAYER else Ball.POSS_STATUS.SHOT_ON_PLAYER_GOAL
+			ball.metadata["shot_force"] = shot_force
+			ball.linear_velocity = velocity_vector
+			lose_poss_of_ball()
+		if sprite.frame == 5:
+			var timer = Timer.new()
+			timer.autostart = true
+			timer.one_shot = true
+			timer.wait_time = 0.1
+			var on_timeout = Callable(self, "pass_or_shoot_anim_complete")
+			timer.connect("timeout", on_timeout)
+			add_child(timer)
+
 func shoot_ball():
 	if !is_stunned:
-		var ball = game.ball
-		# Face toward opponent goal
-		# curr_direction = Direction.LEFT if side == Side.CPU else Direction.RIGHT
-		# var x_diff = -BALL_DRIBBLE_GAP if curr_direction == Direction.LEFT else BALL_DRIBBLE_GAP
-		# ball.global_position = Vector2(global_position.x + x_diff, global_position.y)
-		ball.global_position = global_position
-
-		# Shoot ball toward goal
-		var opp_goal = get_opposing_goal()
-		var dir = (opp_goal.global_position - ball.global_position).normalized()
-		var velocity_vector = dir * SHOOT_SPEED
-		ball.curr_poss_status = Ball.POSS_STATUS.SHOT_ON_CPU_GOAL if side == Side.PLAYER else Ball.POSS_STATUS.SHOT_ON_PLAYER_GOAL
-		ball.metadata["shot_force"] = shot_force
-		ball.linear_velocity = velocity_vector
-		lose_poss_of_ball()
-
 		is_on_pass_cooldown = true
+		is_playing_pass_or_shoot_anim = true
+		sprite.play("shoot")
+		var on_kick = Callable(self, "on_shoot_animation")
+		sprite.frame_changed.connect(on_kick)
+
 		var timer = Timer.new()
 		timer.autostart = true
 		timer.one_shot = true
-		timer.wait_time = 0.1
+		timer.wait_time = 0.5
 		var on_timeout = Callable(self, "pass_cooldown")
 		timer.connect("timeout", on_timeout)
 		add_child(timer)
@@ -194,7 +232,8 @@ func move_to_position(dest_position: Vector2, is_at_pos_threshold):
 	if is_going_for_steal:
 		return
 	if global_position.distance_to(dest_position) <= is_at_pos_threshold or is_stunned:
-		sprite.play("idle")
+		if !is_playing_pass_or_shoot_anim:
+			sprite.play("idle")
 		is_moving_to_position = false
 		linear_velocity = Vector2.ZERO
 	else:
@@ -205,7 +244,8 @@ func move_to_position(dest_position: Vector2, is_at_pos_threshold):
 			sprite.flip_h = true
 		else:
 			sprite.flip_h = false
-		sprite.play("run")
+		if !is_playing_pass_or_shoot_anim:
+			sprite.play("run")
 		var desired_velocity = dir * FieldPlayer.SPEED
 		var steering_force = desired_velocity - linear_velocity
 		linear_velocity = linear_velocity + (steering_force * 2 * 0.0167)
@@ -252,13 +292,17 @@ func stun_wear_off():
 
 func on_steal_hitbox_collided(body: Node2D):
 	if body is FieldPlayer:
-		var field_player = body as FieldPlayer
-		if field_player.side != side and is_going_for_steal:
-			var prev_ball_handler = game.get_ball_handler()
-			if prev_ball_handler != null:
-				prev_ball_handler.stun()
-			game.camera.apply_shake()
-			take_poss_of_ball()
+		var did_steal_succeed = randi_range(1, 100) >= STEAL_PCT_CHANCE
+		if did_steal_succeed:
+			var field_player = body as FieldPlayer
+			if field_player.side != side and is_going_for_steal:
+				var prev_ball_handler = game.get_ball_handler()
+				if prev_ball_handler != null:
+					prev_ball_handler.stun()
+				game.camera.apply_shake()
+				take_poss_of_ball()
+		else:
+			print("Steal failed!")
 
 func steal_ball():
 	var ball_handler = game.get_ball_handler()
@@ -280,7 +324,6 @@ func steal_ball():
 func steal_finished():
 	linear_damp = 0
 	is_going_for_steal = false
-
 
 func can_steal():
 	var ball_handler = game.get_ball_handler()
