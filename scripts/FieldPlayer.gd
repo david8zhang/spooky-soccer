@@ -28,6 +28,10 @@ var is_going_for_steal = false
 # Stamina damage to goalkeeper from shot
 var shot_force = 30
 
+# Get number of frames direction is maintained (to smoothen animations)
+var dir_frame_count = 0
+var prev_dir = 0
+
 enum Side {
 	PLAYER,
 	CPU
@@ -240,15 +244,32 @@ func move_to_position(dest_position: Vector2, is_at_pos_threshold):
 		is_moving_to_position = true
 		context_map.target_position = dest_position
 		var dir = context_map.best_dir
-		if dir.x <= 0.001:
-			sprite.flip_h = true
-		else:
-			sprite.flip_h = false
+		smooth_dir_change(dir)
 		if !is_playing_pass_or_shoot_anim:
 			sprite.play("run")
 		var desired_velocity = dir * FieldPlayer.SPEED
 		var steering_force = desired_velocity - linear_velocity
 		linear_velocity = linear_velocity + (steering_force * 2 * 0.0167)
+
+func smooth_dir_change(dir):
+	if dir.x < 0:
+		if prev_dir == -1:
+			dir_frame_count += 1
+			if dir_frame_count >= 20:
+				curr_direction = Direction.LEFT
+				sprite.flip_h = true
+		else:
+			dir_frame_count = 1
+		prev_dir = -1
+	else:
+		if prev_dir == 1:
+			dir_frame_count += 1
+			if dir_frame_count >= 20:
+				curr_direction = Direction.RIGHT
+				sprite.flip_h = false
+		else:
+			dir_frame_count = 1
+		prev_dir = 1
 
 func move_in_direction(dir: Vector2):
 	linear_velocity = dir.normalized() * FieldPlayer.SPEED

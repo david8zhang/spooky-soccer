@@ -22,7 +22,7 @@
 
 [node name="PlayerFieldPlayerAI" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_gk7c5")
-blackboard = NodePath("@Node@20361")
+blackboard = NodePath("@Node@20280")
 actor = NodePath("")
 
 [node name="RootSequence" type="Node" parent="."]

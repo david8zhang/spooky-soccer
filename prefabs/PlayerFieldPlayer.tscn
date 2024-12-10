@@ -17,7 +17,7 @@ lock_rotation = true
 script = ExtResource("1_ejapt")
 
 [node name="PlayerFieldPlayerAI" parent="." node_paths=PackedStringArray("blackboard", "actor") instance=ExtResource("2_ede0m")]
-blackboard = NodePath("@Node@125180")
+blackboard = NodePath("@Node@17992")
 actor = NodePath("..")
 
 [node name="ContextMap" parent="." instance=ExtResource("2_xnjla")]
