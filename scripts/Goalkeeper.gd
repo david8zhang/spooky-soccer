@@ -7,6 +7,9 @@ extends FieldPlayer
 @onready var save_meter = $SaveMeter as ProgressBar
 @onready var animated_sprite = $AnimatedSprite2D as AnimatedSprite2D
 
+var prev_anim_state = ''
+var num_frames_in_anim_state = 0
+
 func _ready():
   curr_direction = Direction.LEFT if side == Side.CPU else Direction.RIGHT
   save_meter.value = 100
@@ -49,17 +52,28 @@ func move_to_position(dest_position: Vector2, is_at_pos_threshold):
   if global_position.distance_to(dest_position) <= is_at_pos_threshold or is_stunned:
     is_moving_to_position = false
     linear_velocity = Vector2.ZERO
+    transition_to_anim('idle')
   else:
     is_moving_to_position = true
     context_map.target_position = dest_position
     var dir = context_map.best_dir
-    if dir.x <= 0.001:
-      sprite.flip_h = true
-    else:
-      sprite.flip_h = false
+    transition_to_anim('run')
+    super.smooth_dir_change(dir)
     var desired_velocity = dir * FieldPlayer.SPEED
     var steering_force = desired_velocity - linear_velocity
     linear_velocity = linear_velocity + (steering_force * 2 * 0.0167)
+  
+func transition_to_anim(new_anim_state):
+  # If this is a switch up, don't immediately change to new animation (otherwise we get weird flashing)
+  if prev_anim_state != new_anim_state:
+    prev_anim_state = new_anim_state
+    num_frames_in_anim_state = 1
+  else:
+    if num_frames_in_anim_state >= 20:
+      sprite.play(new_anim_state)
+    num_frames_in_anim_state += 1
+
+
 
 func get_point_to_defend(enemy_field_player: FieldPlayer):
   var self_goal = game.cpu_goal if side == Side.CPU else game.player_goal

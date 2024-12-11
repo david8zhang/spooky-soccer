@@ -1,7 +1,8 @@
-[gd_scene load_steps=16 format=3 uid="uid://cp4h3kopc4ei8"]
+[gd_scene load_steps=17 format=3 uid="uid://cp4h3kopc4ei8"]
 
 [ext_resource type="Script" path="res://scripts/Game.gd" id="1_0qwq3"]
 [ext_resource type="PackedScene" uid="uid://d03yj7smxqk6c" path="res://prefabs/PlayerFieldManager.tscn" id="1_uj31e"]
+[ext_resource type="Texture2D" uid="uid://wgysojmi3oge" path="res://sprites/field.png" id="2_71h2o"]
 [ext_resource type="Script" path="res://scripts/Camera.gd" id="2_q5sbu"]
 [ext_resource type="PackedScene" uid="uid://dbagi233oshw7" path="res://prefabs/Ball.tscn" id="3_w1s3v"]
 [ext_resource type="PackedScene" uid="uid://cjfb8ram4fpgp" path="res://prefabs/CPUFieldManager.tscn" id="4_kyuv4"]
@@ -34,6 +35,9 @@ b = Vector2(2.08165e-12, 324)
 position = Vector2(2.08165e-12, 2.08165e-12)
 script = ExtResource("1_0qwq3")
 
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_71h2o")
+
 [node name="Camera2D" type="Camera2D" parent="."]
 script = ExtResource("2_q5sbu")
 
@@ -50,10 +54,11 @@ goalkeeper_scene = ExtResource("5_ieddf")
 player_scene = ExtResource("7_6ns4q")
 
 [node name="LeftGoal" parent="." instance=ExtResource("5_tfqse")]
-position = Vector2(-550, 1)
+position = Vector2(-538, -24)
 
 [node name="RightGoal" parent="." instance=ExtResource("5_tfqse")]
-position = Vector2(550, 1)
+position = Vector2(538, -24)
+scale = Vector2(-1, 1)
 side = 1
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
