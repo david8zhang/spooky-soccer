@@ -46,6 +46,7 @@ func reset_after_score(_last_scored_side):
 	for player in field_players:
 		player.global_position = get_default_position(player.player_name)
 	goalkeeper.save_meter.value = 100
+	goalkeeper.linear_velocity = Vector2.ZERO
 
 func assign_defenders():
 	var opp_players = get_opposing_manager().field_players

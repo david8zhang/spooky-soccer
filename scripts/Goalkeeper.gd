@@ -45,7 +45,6 @@ func _physics_process(_delta):
   else:
     linear_velocity = Vector2.ZERO
 
-
 func move_to_position(dest_position: Vector2, is_at_pos_threshold):
   if is_going_for_steal:
     return
@@ -57,8 +56,12 @@ func move_to_position(dest_position: Vector2, is_at_pos_threshold):
     is_moving_to_position = true
     context_map.target_position = dest_position
     var dir = context_map.best_dir
+    if side == Side.CPU:
+      sprite.flip_h = true
+    elif side == Side.PLAYER:
+      sprite.flip_h = false
+
     transition_to_anim('run')
-    super.smooth_dir_change(dir)
     var desired_velocity = dir * FieldPlayer.SPEED
     var steering_force = desired_velocity - linear_velocity
     linear_velocity = linear_velocity + (steering_force * 2 * 0.0167)
@@ -72,8 +75,6 @@ func transition_to_anim(new_anim_state):
     if num_frames_in_anim_state >= 20:
       sprite.play(new_anim_state)
     num_frames_in_anim_state += 1
-
-
 
 func get_point_to_defend(enemy_field_player: FieldPlayer):
   var self_goal = game.cpu_goal if side == Side.CPU else game.player_goal
