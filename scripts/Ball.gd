@@ -31,6 +31,25 @@ func get_enum_name(enum_dict: Dictionary, value: int) -> String:
 				return name_key
 	return "Unknown"
 
+func _physics_process(_delta):
+	var viewport = get_viewport_rect()
+	var min_x = -viewport.size.x / 2
+	var max_x = viewport.size.x / 2
+	var min_y = -viewport.size.y / 2
+	var max_y = viewport.size.y / 2
+	global_position = Vector2(clamp(global_position.x, min_x, max_x), clamp(global_position.y, min_y, max_y))
+
+func place_ball_in_front(curr_player: FieldPlayer, direction):
+	var viewport = get_viewport_rect()
+	var min_x = -viewport.size.x / 2
+	var max_x = viewport.size.x / 2
+	var min_y = -viewport.size.y / 2
+	var max_y = viewport.size.y / 2
+	var x_diff = -FieldPlayer.BALL_DRIBBLE_GAP if direction == FieldPlayer.Direction.LEFT else FieldPlayer.BALL_DRIBBLE_GAP
+	var x_pos = clamp(curr_player.global_position.x + x_diff, min_x, max_x)
+	var y_pos = clamp(curr_player.global_position.y + 20, min_y, max_y)
+	global_position = Vector2(x_pos, y_pos)
+
 func _process(_delta):
 	status_label.text = get_enum_name(POSS_STATUS, curr_poss_status)
 

@@ -93,8 +93,7 @@ func _physics_process(_delta):
 	if has_possession:
 		var ball = game.ball as RigidBody2D
 		ball.show()
-		var x_diff = -BALL_DRIBBLE_GAP if curr_direction == Direction.LEFT else BALL_DRIBBLE_GAP
-		ball.global_position = Vector2(global_position.x + x_diff, global_position.y + 20)
+		ball.place_ball_in_front(self, curr_direction)
 
 	# For checking if the player currently has an open shot on offense
 	if ray_to_goal != null:
@@ -109,8 +108,7 @@ func on_pass_animation():
 			var ball = game.ball
 			# Face toward pass_target
 			curr_direction = Direction.LEFT if global_position.x > pass_target.global_position.x else Direction.RIGHT
-			var x_diff = -BALL_DRIBBLE_GAP if curr_direction == Direction.LEFT else BALL_DRIBBLE_GAP
-			ball.global_position = Vector2(global_position.x + x_diff, global_position.y + 20)
+			ball.place_ball_in_front(self, curr_direction)
 
 			var pass_time = 0.5
 			var dist_to_target = pass_target.global_position.distance_to(global_position)
@@ -184,6 +182,18 @@ func shoot_ball():
 	if !is_stunned:
 		is_on_pass_cooldown = true
 		is_playing_pass_or_shoot_anim = true
+		var ball = game.ball
+
+		# Always face goal when shooting
+		if side == Side.CPU:
+			sprite.flip_h = true
+			curr_direction = Direction.LEFT
+			ball.place_ball_in_front(self, Direction.LEFT)
+		else:
+			sprite.flip_h = false
+			curr_direction = Direction.RIGHT
+			ball.place_ball_in_front(self, Direction.RIGHT)
+
 		sprite.play("shoot")
 		var on_kick = Callable(self, "on_shoot_animation")
 		sprite.frame_changed.connect(on_kick)
