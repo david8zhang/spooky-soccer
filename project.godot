@@ -78,6 +78,7 @@ steal={
 2d_physics/layer_4="Goalkeepers"
 2d_physics/layer_5="Goal"
 2d_physics/layer_6="Walls"
+2d_physics/layer_7="GoalPost"
 
 [physics]
 

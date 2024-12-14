@@ -24,6 +24,8 @@ var side
 # Going for a steal (slide tackle)
 var steal_direction = Vector2.ZERO
 var is_going_for_steal = false
+var is_on_steal_cooldown = false
+var steal_cooldown_time = 2.0
 
 # Stamina damage to goalkeeper from shot
 var shot_force = 30
@@ -323,21 +325,31 @@ func stun_wear_off():
 
 func on_steal_hitbox_collided(body: Node2D):
 	if body is FieldPlayer:
+		var field_player = body as FieldPlayer
 		var did_steal_succeed = randi_range(1, 100) >= STEAL_PCT_CHANCE
-		if did_steal_succeed:
-			var field_player = body as FieldPlayer
-			if field_player.side != side and is_going_for_steal:
+		if field_player.side != side and is_going_for_steal:
+			if did_steal_succeed:
 				var prev_ball_handler = game.get_ball_handler()
 				if prev_ball_handler != null:
 					prev_ball_handler.stun()
 				game.camera.apply_shake()
 				take_poss_of_ball()
-		else:
-			print("Steal failed!")
+			else:
+				print("Steal failed!")
+			var steal_cooldown_timer = Timer.new()
+			steal_cooldown_timer.wait_time = steal_cooldown_time
+			steal_cooldown_timer.one_shot = true
+			steal_cooldown_timer.autostart = true
+			is_on_steal_cooldown = true
+			var callable = Callable(self, "steal_cooldown_expired")
+			steal_cooldown_timer.timeout.connect(callable)
+			add_child(steal_cooldown_timer)
+
+func steal_cooldown_expired():
+	is_on_steal_cooldown = false
 
 func steal_ball():
 	var ball_handler = game.get_ball_handler()
-	print(player_name + " going for steal on " + ball_handler.player_name)
 	if ball_handler != null:
 		is_going_for_steal = true
 		steal_direction = (ball_handler.global_position - global_position).normalized()
@@ -356,10 +368,24 @@ func steal_finished():
 	linear_damp = 0
 	is_going_for_steal = false
 
-func can_steal():
+func is_able_to_steal():
+	var ball_handler = game.get_ball_handler()
+	# Fix a bug in which a ball handler immediately steals the ball back
+	if ball_handler != null and ball_handler.is_going_for_steal:
+		return false
+	if is_on_steal_cooldown:
+		return false
+	if is_going_for_steal:
+		return false
+	if is_stunned:
+		return false
+	else:
+		return true
+
+func is_within_steal_range():
 	var ball_handler = game.get_ball_handler()
 	if ball_handler != null:
 		var dist_to_ball_handler = global_position.distance_to(ball_handler.global_position)
-		return dist_to_ball_handler <= FieldPlayer.STEAL_RANGE and !is_going_for_steal and !is_stunned
+		return dist_to_ball_handler <= FieldPlayer.STEAL_RANGE
 	else:
 		return false

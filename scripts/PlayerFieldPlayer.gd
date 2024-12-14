@@ -37,7 +37,7 @@ func _physics_process(_delta):
 			update_pass_target(linear_velocity)
 		else:
 			if Input.is_action_just_pressed("steal"):
-				if can_steal():
+				if is_able_to_steal() and is_within_steal_range():
 					steal_ball()
 	super._physics_process(_delta)
 

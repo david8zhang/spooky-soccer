@@ -9,6 +9,7 @@ extends FieldPlayer
 
 var prev_anim_state = ''
 var num_frames_in_anim_state = 0
+var stam_recovered_per_second = 1
 
 func _ready():
   curr_direction = Direction.LEFT if side == Side.CPU else Direction.RIGHT
@@ -19,6 +20,18 @@ func _ready():
   else:
     animated_sprite.sprite_frames = load("res://animations/player-field-player.tres")
     animated_sprite.play("idle")
+
+  # Stamina recovery
+  var stam_recovery_timer = Timer.new()
+  stam_recovery_timer.autostart = true
+  stam_recovery_timer.one_shot = false
+  stam_recovery_timer.wait_time = 1
+  var on_timeout = Callable(self, "_recover_stamina")
+  stam_recovery_timer.timeout.connect(on_timeout)
+  add_child(stam_recovery_timer)
+
+func _recover_stamina():
+  save_meter.value += stam_recovered_per_second
 
 func handle_ball_collision():
   var ball = game.ball as Ball
@@ -36,7 +49,6 @@ func handle_ball_collision():
       ball.curr_poss_status = Ball.POSS_STATUS.LOOSE
 	
 func _physics_process(_delta):
-  # var closest_enemy = get_closest_enemy_field_player()
   var enemy_with_ball = game.get_ball_handler()
   if enemy_with_ball != null and enemy_with_ball.side != side:
     var point_to_defend = get_point_to_defend(enemy_with_ball)
@@ -60,7 +72,6 @@ func move_to_position(dest_position: Vector2, is_at_pos_threshold):
       sprite.flip_h = true
     elif side == Side.PLAYER:
       sprite.flip_h = false
-
     transition_to_anim('run')
     var desired_velocity = dir * FieldPlayer.SPEED
     var steering_force = desired_velocity - linear_velocity
