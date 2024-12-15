@@ -25,12 +25,6 @@ var curr_poss_status
 # Metadata stored on the ball
 var metadata = {}
 
-func get_enum_name(enum_dict: Dictionary, value: int) -> String:
-	for name_key in enum_dict.keys():
-		if enum_dict[name_key] == value:
-				return name_key
-	return "Unknown"
-
 func _physics_process(_delta):
 	var viewport = get_viewport_rect()
 	var min_x = -viewport.size.x / 2
@@ -51,7 +45,7 @@ func place_ball_in_front(curr_player: FieldPlayer, direction):
 	global_position = Vector2(x_pos, y_pos)
 
 func _process(_delta):
-	status_label.text = get_enum_name(POSS_STATUS, curr_poss_status)
+	status_label.text = Game.get_enum_name(POSS_STATUS, curr_poss_status)
 
 func _on_field_player_detector_body_entered(body):
 	if body is FieldPlayer:
