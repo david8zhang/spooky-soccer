@@ -1,0 +1,33 @@
+[gd_scene load_steps=2 format=3 uid="uid://vb4t1ran6mey"]
+
+[ext_resource type="Script" path="res://scripts/PowerUpSelect.gd" id="1_mkmjb"]
+
+[node name="PowerUpSelect" type="Node2D"]
+script = ExtResource("1_mkmjb")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Button" type="Button" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Continue"
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -66.5
+offset_top = 21.0
+offset_right = 66.5
+offset_bottom = 47.0
+grow_horizontal = 2
+text = "Select Power Ups"

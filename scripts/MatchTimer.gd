@@ -4,7 +4,7 @@ extends Label
 @onready var game = get_node("/root/Main") as Game
 
 var match_timer
-const MATCH_TIME_SECONDS = 5
+const MATCH_TIME_SECONDS = 180
 
 signal on_match_timer_expired
 

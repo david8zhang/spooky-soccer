@@ -14,7 +14,7 @@ extends Node2D
 @onready var match_timer = $CanvasLayer/MatchTimer as MatchTimer
 
 var cpu_score = 0
-var player_score = 0
+var player_score = 1
 var just_scored = false
 var is_overtime = false
 
@@ -30,16 +30,25 @@ func on_match_timer_expired():
 	if cpu_score == player_score:
 		is_overtime = true
 	else:
-		var winning_side = FieldPlayer.Side.PLAYER if player_score > cpu_score else FieldPlayer.Side.CPU
-		print("Winning side: " + Game.get_enum_name(FieldPlayer.Side, winning_side))
+		process_winner()
+
+func process_winner():
+	if player_score > cpu_score:
+		get_tree().change_scene_to_file("res://scenes/PowerUpSelect.tscn")
+	else:
+		get_tree().change_scene_to_file("res://scenes/GameOver.tscn")
 
 func on_cpu_scored():
 	cpu_score += 1
 	scoreboard.text = str(player_score) + "-" + str(cpu_score)
+	if is_overtime:
+		process_winner()
 
 func on_player_scored():
 	player_score += 1
 	scoreboard.text = str(player_score) + "-" + str(cpu_score)
+	if is_overtime:
+		process_winner()
 
 func reset_after_score(last_scored_side: FieldPlayer.Side):
 	# If we're in overtime, go to the victory / defeat screen
